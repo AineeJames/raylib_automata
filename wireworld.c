@@ -2,10 +2,19 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <string.h>
+#include <time.h>
+
+
+/*
+ * If much larger cell grid is desired
+ * may need to improve rectangle grid rendering
+ * for example with cell_size 5 we have 160x78
+ * which is 12480 calls to drawRectangle
+ * */
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
-#define CELL_SIZE 20
+#define CELL_SIZE 20 
 #define GRID_WIDTH (WINDOW_WIDTH / CELL_SIZE)
 #define GRID_HEIGHT (WINDOW_HEIGHT / CELL_SIZE)
 
@@ -58,6 +67,7 @@ int main() {
   SetTargetFPS(60);   
   clearCells();
   cell_state draw_state = WIRE;
+  TraceLog(LOG_INFO, "starting wire world with grid size %dx%x\n", GRID_WIDTH, GRID_HEIGHT);
   while(!WindowShouldClose()) {
     if (IsKeyPressed(KEY_ONE)) draw_state = WIRE;
     else if (IsKeyPressed(KEY_TWO)) draw_state = HEAD;
@@ -84,8 +94,12 @@ int main() {
       DrawText("x: Clear Screen", offset, WINDOW_HEIGHT + 15, 20, RAYWHITE);
       drawPlayingOrPausedIndicator();
     EndDrawing();
-
+	
+    clock_t begin = clock();
     memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
+    clock_t end = clock();
+    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+    TraceLog(LOG_DEBUG, "time spent in memcpy old %f\n",time_spent);
     frame_count++;
     if(frame_count % frames_per_tick == 0){
 	frame_count = 0;
