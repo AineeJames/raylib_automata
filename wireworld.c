@@ -3,7 +3,7 @@
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
-#define CELL_SIZE 10
+#define CELL_SIZE 20
 #define GRID_WIDTH (WINDOW_WIDTH / CELL_SIZE)
 #define GRID_HEIGHT (WINDOW_HEIGHT / CELL_SIZE)
 
@@ -37,14 +37,16 @@ int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Wire World");
   SetTargetFPS(60);   
+  cell_state draw_state = EMPTY;
   while(!WindowShouldClose()) {
-    if (IsKeyPressed(49)) TraceLog(LOG_DEBUG, "PRESSED 1");
-    if (IsKeyPressed(50)) TraceLog(LOG_DEBUG, "PRESSED 2");
-    if (IsKeyPressed(51)) TraceLog(LOG_DEBUG, "PRESSED 3");
-    if (IsKeyPressed(52)) TraceLog(LOG_DEBUG, "PRESSED 4");
+
+    if (IsKeyPressed(49)) draw_state = WIRE;
+    else if (IsKeyPressed(50)) draw_state = HEAD;
+    else if (IsKeyPressed(51)) draw_state = TAIL;
+    else if (IsKeyPressed(52)) draw_state = EMPTY;
 
     cell_coord selected_cell = getCellIdx(GetMousePosition());
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) setCell(selected_cell, HEAD);
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) setCell(selected_cell, draw_state);
 
     BeginDrawing();
       ClearBackground(BLACK);
