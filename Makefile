@@ -3,7 +3,7 @@ CC=gcc
 
 run: clean
 	@echo "Compiling..."
-	$(CC) wireworld.c -o $(EXE) -lraylib -g3 
+	$(CC) wireworld.c -o $(EXE) -lraylib
 	@echo "Running..."
 	./$(EXE)
 
