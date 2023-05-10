@@ -99,9 +99,11 @@ void drawPlayingOrPausedIndicator(){
     Vector2 x2 = {760,610};
     Vector2 x3 = {760,630};
     if(playing){
+	    DrawText("Playing",680,620,20,GREEN);
 	    DrawTriangle(x1,x2,x3,GREEN);
     }
     else{
+	    DrawText("Paused",680,620,20,RED);
 	    DrawTriangle(x1,x2,x3,RED);
     }
 }
