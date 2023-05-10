@@ -24,16 +24,17 @@ int main() {
 }
 
 void draw2Dgrid(void){
+	Color Griddycolor = GRAY;
 	for(int i = 0; i < WINDOW_WIDTH; i+=CELL_SIZE){
 		// Vertical Lines
 		Vector2 linestart = {i,0};
 		Vector2 lineend = {i,WINDOW_HEIGHT};
-		DrawLineEx(linestart,lineend,2, GRAY);
+		DrawLineEx(linestart,lineend,2, Griddycolor);
 		for(int j = 0;j < WINDOW_HEIGHT; j+= CELL_SIZE){
 			// Horizontal lines
 			Vector2 linestart = {0,j};
 			Vector2 lineend = {WINDOW_WIDTH,j};
-			DrawLineEx(linestart,lineend,2, GRAY);
+			DrawLineEx(linestart,lineend,2, Griddycolor);
 			
 		}
 	}
