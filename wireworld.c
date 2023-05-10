@@ -31,6 +31,7 @@ cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 void draw2Dgrid(void);
 void drawCells(void);
 cell_coord getCellIdx(Vector2 mouse_pos);
+void setCell(cell_coord coordinate, cell_state new_state);
 
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
@@ -39,6 +40,7 @@ int main() {
   while(!WindowShouldClose()) {
     cell_coord selected_cell = getCellIdx(GetMousePosition());
     TraceLog(LOG_DEBUG, "x,y = (%d,%d)", selected_cell.x, selected_cell.y);
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) setCell(selected_cell, HEAD);
     BeginDrawing();
       ClearBackground(BLACK);
       drawCells();
@@ -48,6 +50,12 @@ int main() {
   }
   CloseWindow();
   return 0;
+}
+
+void setCell(cell_coord coordinate, cell_state new_state){
+	if (coordinate.x >= 0 && coordinate.y >= 0 && coordinate.x < GRID_WIDTH && coordinate.y < GRID_HEIGHT){
+		cell_grid[coordinate.x][coordinate.y] = new_state;
+	}
 }
 
 cell_coord getCellIdx(Vector2 mouse_pos) {
