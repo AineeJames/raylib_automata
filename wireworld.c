@@ -37,6 +37,7 @@ typedef struct{
 
 cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
+bool playing = false;
 
 void clearCells(void);
 void draw2Dgrid(void);
@@ -45,6 +46,7 @@ void updateGrid(void);
 cell_coord getCellIdx(Vector2 mouse_pos);
 void setCell(cell_coord coordinate, cell_state new_state);
 int drawHelpItem(cell_state state, cell_state selected, int x, int y);
+void drawPlayingOrPausedIndicator();
 
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
@@ -57,6 +59,7 @@ int main() {
     else if (IsKeyPressed(50)) draw_state = HEAD;
     else if (IsKeyPressed(51)) draw_state = TAIL;
     else if (IsKeyPressed(52)) draw_state = EMPTY;
+    else if (IsKeyPressed(KEY_SPACE)) playing = !playing;
 
     cell_coord selected_cell = getCellIdx(GetMousePosition());
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) setCell(selected_cell, draw_state);
@@ -70,10 +73,14 @@ int main() {
       for (int state = WIRE; state < EMPTY+1; state++) {
         offset += drawHelpItem(state, draw_state, offset, WINDOW_HEIGHT + 15) + 20;
       }
+      drawPlayingOrPausedIndicator();
     EndDrawing();
 
     memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
+    if(playing){
     updateGrid();
+    }
+    
   }
   CloseWindow();
   return 0;
@@ -85,6 +92,18 @@ void clearCells(void) {
       cell_grid[i][j] = EMPTY;
     }
   }
+}
+
+void drawPlayingOrPausedIndicator(){
+    Vector2 x1 = {780,620};
+    Vector2 x2 = {760,610};
+    Vector2 x3 = {760,630};
+    if(playing){
+	    DrawTriangle(x1,x2,x3,GREEN);
+    }
+    else{
+	    DrawTriangle(x1,x2,x3,RED);
+    }
 }
 
 int drawHelpItem(cell_state state, cell_state selected, int x, int y) { 
