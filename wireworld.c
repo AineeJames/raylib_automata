@@ -68,8 +68,6 @@ int main() {
 
     BeginDrawing();
     ClearBackground(BLACK);
-    // draw selected cell in own function so rendering priority can
-    // be ensured
     drawCells();
     draw2Dgrid();
     DrawFPS(0, 0);
