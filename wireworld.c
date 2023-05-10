@@ -120,7 +120,8 @@ int main() {
 }
 
 void drawCursor(Vector2 pos){
-  DrawRectangle(pos.x, pos.y, 2, 2, RAYWHITE);
+  DrawRectangleLines(pos.x - 5, pos.y - 5, 8, 8, RAYWHITE);
+  DrawRectangle(pos.x - 2, pos.y - 2, 2, 2, RAYWHITE);
 }
 
 void clearCells(void) {
