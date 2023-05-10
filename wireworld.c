@@ -43,7 +43,6 @@ int main() {
   SetTargetFPS(60);   
   cell_state draw_state = EMPTY;
   while(!WindowShouldClose()) {
-    memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
     if (IsKeyPressed(49)) draw_state = WIRE;
     else if (IsKeyPressed(50)) draw_state = HEAD;
     else if (IsKeyPressed(51)) draw_state = TAIL;
@@ -58,6 +57,8 @@ int main() {
       draw2Dgrid();
       DrawFPS(0,0);
     EndDrawing();
+
+    memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
     updateGrid();
   }
   CloseWindow();
