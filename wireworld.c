@@ -82,11 +82,7 @@ int main() {
     drawSelectedCell(selected_cell);
     EndDrawing();
 	
-    clock_t begin = clock();
     memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
-    clock_t end = clock();
-    double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
-    TraceLog(LOG_DEBUG, "time spent in memcpy old %f\n",time_spent);
     frame_count++;
     if (frame_count % frames_per_tick == 0) {
       frame_count = 0;
