@@ -7,15 +7,34 @@
 #define GRID_WIDTH (WINDOW_WIDTH / CELL_SIZE)
 #define GRID_HEIGHT (WINDOW_HEIGHT / CELL_SIZE)
 
+void draw2Dgrid(void);
+
 int main() {
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "raylib [core] example - basic window");
   SetTargetFPS(60);   
   while(!WindowShouldClose()) {
     BeginDrawing();
       ClearBackground(BLACK);
+      draw2Dgrid();
       DrawFPS(0,0);
     EndDrawing();
   }
   CloseWindow();
   return 0;
+}
+
+void draw2Dgrid(void){
+	for(int i = 0; i < WINDOW_WIDTH; i+=CELL_SIZE){
+		// Vertical Lines
+		Vector2 linestart = {i,0};
+		Vector2 lineend = {i,WINDOW_HEIGHT};
+		DrawLineEx(linestart,lineend,2, GRAY);
+		for(int j = 0;j < WINDOW_HEIGHT; j+= CELL_SIZE){
+			// Horizontal lines
+			Vector2 linestart = {0,j};
+			Vector2 lineend = {WINDOW_WIDTH,j};
+			DrawLineEx(linestart,lineend,2, GRAY);
+			
+		}
+	}
 }
