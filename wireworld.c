@@ -153,9 +153,14 @@ cell_coord getCellIdx(Vector2 mouse_pos) {
 }
 
 void drawSelectedCell(cell_coord selected_cell) {
-  DrawRectangleLines(selected_cell.x * CELL_SIZE, selected_cell.y * CELL_SIZE,
-                     CELL_SIZE, CELL_SIZE, WHITE);
+
+  if (selected_cell.x >= 0 && selected_cell.y >= 0 &&
+      selected_cell.x < GRID_WIDTH && selected_cell.y < GRID_HEIGHT) {
+    DrawRectangleLines(selected_cell.x * CELL_SIZE, selected_cell.y * CELL_SIZE,
+                       CELL_SIZE, CELL_SIZE, WHITE);
+  }
 }
+
 void drawCells(void) {
   for (int i = 0; i < GRID_WIDTH; i++) {
     for (int j = 0; j < GRID_HEIGHT; j++) {
