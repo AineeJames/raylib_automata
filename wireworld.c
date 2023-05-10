@@ -21,6 +21,11 @@ typedef enum {
   WIRE
 } cell_state;
 
+typedef struct{
+	int x;
+	int y;
+}cell_coord;
+
 cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 
 void draw2Dgrid(void);
