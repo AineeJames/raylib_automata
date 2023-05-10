@@ -33,6 +33,7 @@ cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
 
 void draw2Dgrid(void);
 void drawCells(void);
+void updateGrid(void);
 cell_coord getCellIdx(Vector2 mouse_pos);
 void setCell(cell_coord coordinate, cell_state new_state);
 
@@ -57,6 +58,7 @@ int main() {
       draw2Dgrid();
       DrawFPS(0,0);
     EndDrawing();
+    updateGrid();
   }
   CloseWindow();
   return 0;
@@ -96,7 +98,7 @@ void draw2Dgrid(void){
 			Vector2 linestart = {0,j};
 			Vector2 lineend = {WINDOW_WIDTH,j};
 			DrawLineEx(linestart,lineend,1, Griddycolor);
-			
+		
 		}
 	}
 }
@@ -138,7 +140,7 @@ void updateGrid(void){
 		if(cell_grid[i][j] == HEAD && stateInMoore(i,j,TAIL)){
 			next_cell_grid[i][j] = TAIL;
 		}
-		if(cell_grid[i][j] == WIRE && stateInMoore(i,j,HEAD)){
+		if(cell_grid[i][j] == WIRE && (stateInMoore(i,j,HEAD) == 1 || stateInMoore(i,j,HEAD) == 2)){
 			next_cell_grid[i][j] = HEAD;
 		}
 	    }
