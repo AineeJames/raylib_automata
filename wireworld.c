@@ -53,7 +53,6 @@ int main() {
   clearCells();
   cell_state draw_state = WIRE;
   while(!WindowShouldClose()) {
-    memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
     if (IsKeyPressed(49)) draw_state = WIRE;
     else if (IsKeyPressed(50)) draw_state = HEAD;
     else if (IsKeyPressed(51)) draw_state = TAIL;
@@ -72,6 +71,8 @@ int main() {
         offset += drawHelpItem(state, draw_state, offset, WINDOW_HEIGHT + 15) + 20;
       }
     EndDrawing();
+
+    memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
     updateGrid();
   }
   CloseWindow();
