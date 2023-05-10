@@ -20,7 +20,8 @@
 #define GRID_WIDTH (WINDOW_WIDTH / CELL_SIZE)
 #define GRID_HEIGHT (WINDOW_HEIGHT / CELL_SIZE)
 
-Color state_colors[] = {YELLOW, BLUE, RED, BLACK};
+const Color COPPER_PASTEL = {221, 140, 88, 255};
+Color state_colors[] = {COPPER_PASTEL, BLUE, RED, BLACK};
 
 const char *state_names[] = {"WIRE", "HEAD", "TAIL", "ERASE"};
 
@@ -36,6 +37,7 @@ cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
 bool playing = false;
 int frames_per_tick = 4;
 int frame_count = 0;
+Rectangle colorsRects[4] = { 0 };
 
 void clearCells(void);
 void draw2Dgrid(void);
@@ -55,6 +57,7 @@ int main() {
   SetTargetFPS(60);
   clearCells();
   cell_state draw_state = WIRE;
+  int stateMouseHover = 0;
   while(!WindowShouldClose()) {
     if (IsKeyPressed(KEY_ONE)) draw_state = WIRE;
     else if (IsKeyPressed(KEY_TWO)) draw_state = HEAD;
@@ -64,7 +67,23 @@ int main() {
     else if (IsKeyPressed(KEY_UP) && frames_per_tick > 1) frames_per_tick--;
     else if (IsKeyPressed(KEY_DOWN)) frames_per_tick++;
     else if (IsKeyPressed(KEY_X)) clearCells();
-    cell_coord selected_cell = getCellIdx(GetMousePosition());
+    Vector2 mousePos = GetMousePosition();
+    for (int i = 0; i < 4; i++)
+    {
+	if (CheckCollisionPointRec(mousePos, colorsRects[i]))
+	{
+		stateMouseHover = i;
+		break;
+	}
+	else stateMouseHover = -1;
+    }
+
+    cell_coord selected_cell = getCellIdx(mousePos);
+    if ((stateMouseHover >= 0) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+    {
+        draw_state = stateMouseHover;
+    }
+
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
       setCell(selected_cell, draw_state);
 
@@ -131,10 +150,14 @@ int drawHelpItem(cell_state state, cell_state selected, int x, int y) {
   Color rect_color =
       state < EMPTY ? state_colors[state] : (Color){75, 75, 75, 255};
   DrawRectangle(x - 2, y, MeasureText(label, 20) + 4, 20, rect_color);
+
+  colorsRects[state] = (Rectangle) {x - 2, y, MeasureText(label, 20) + 4, 20};
+
   if (state == selected) {
     DrawRectangleLines(x - 5, y - 3, MeasureText(label, 20) + 10, 26, WHITE);
   }
   DrawText(label, x, y, 20, BLACK);
+
   return width;
 }
 
