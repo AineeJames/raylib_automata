@@ -7,20 +7,29 @@
 #define GRID_WIDTH (WINDOW_WIDTH / CELL_SIZE)
 #define GRID_HEIGHT (WINDOW_HEIGHT / CELL_SIZE)
 
-enum cell_state {
+Color state_colors[] = {
+  BLACK,
+  BLUE,
+  RED,
+  YELLOW
+};
+
+typedef enum {
   EMPTY,
   HEAD,
   TAIL,
   WIRE
-};
+} cell_state;
 
-enum cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
+cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 
 void draw2Dgrid(void);
+void initRandom(void);
 
 int main() {
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Wire World");
   SetTargetFPS(60);   
+  initRandom();
   while(!WindowShouldClose()) {
     BeginDrawing();
       ClearBackground(BLACK);
@@ -32,18 +41,26 @@ int main() {
   return 0;
 }
 
+void initRandom(void){
+  for(int i = 0; i < GRID_WIDTH; i++) {
+    for(int j = 0; j < GRID_HEIGHT; j++) {
+      cell_grid[i][j] = (cell_state)GetRandomValue(0, 3);
+    }
+  }
+}
+
 void draw2Dgrid(void){
 	Color Griddycolor = {50,50,50,255};
 	for(int i = 0; i < WINDOW_WIDTH; i+=CELL_SIZE){
 		// Vertical Lines
 		Vector2 linestart = {i,0};
 		Vector2 lineend = {i,WINDOW_HEIGHT};
-		DrawLineEx(linestart,lineend,2, Griddycolor);
+		DrawLineEx(linestart,lineend,1, Griddycolor);
 		for(int j = 0;j < WINDOW_HEIGHT; j+= CELL_SIZE){
 			// Horizontal lines
 			Vector2 linestart = {0,j};
 			Vector2 lineend = {WINDOW_WIDTH,j};
-			DrawLineEx(linestart,lineend,2, Griddycolor);
+			DrawLineEx(linestart,lineend,1, Griddycolor);
 			
 		}
 	}
