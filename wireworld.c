@@ -1,4 +1,5 @@
 #include "raylib.h"
+#define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 #include <stdbool.h>
 #include <stdio.h>
@@ -38,7 +39,10 @@ cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
 bool playing = false;
 int frames_per_tick = 4;
 int frame_count = 0;
+bool showSaveWindow = false;
 Rectangle colorsRects[4] = { 0 };
+char textInput[50] = {0};
+char textInputFileName[50] = {0};
 
 void clearCells(void);
 void draw2Dgrid(void);
@@ -52,6 +56,7 @@ void drawPlayingOrPausedIndicator();
 void drawSpeed();
 int stateInMoore(int x, int y, cell_state target_state);
 void drawCursor(Vector2 pos);
+void savePopUp(void);
 
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
@@ -70,6 +75,7 @@ int main() {
     else if (IsKeyPressed(KEY_UP) && frames_per_tick > 1) frames_per_tick--;
     else if (IsKeyPressed(KEY_DOWN)) frames_per_tick++;
     else if (IsKeyPressed(KEY_X)) clearCells();
+    else if (IsKeyPressed(KEY_S)) showSaveWindow = true;
     Vector2 mousePos = GetMousePosition();
     for (int i = 0; i < 4; i++)
     {
@@ -105,6 +111,9 @@ int main() {
     drawPlayingOrPausedIndicator();
     drawSelectedCell(selected_cell, draw_state);
     drawCursor(mousePos);
+    if(showSaveWindow){
+	    savePopUp();
+    }
     EndDrawing();
 	
     memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
@@ -271,4 +280,22 @@ void updateGrid(void) {
   }
   memcpy(&cell_grid, &next_cell_grid,
          GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
+}
+
+void savePopUp(void) {
+	DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(RAYWHITE, 0.8f));
+	int result = GuiTextInputBox((Rectangle){ (float)GetScreenWidth()/2 - 120, (float)GetScreenHeight()/2 - 60, 240, 140 }, "Save", GuiIconText(ICON_FILE_SAVE, "Save file as..."), "Ok;Cancel", textInput, 255, NULL);
+
+	if (result == 1)
+	{
+	    // TODO: Validate textInput value and save
+
+	    strcpy(textInputFileName, textInput);
+	}
+
+	if ((result == 0) || (result == 1) || (result == 2))
+	{
+	    strcpy(textInput, "\0");
+	    showSaveWindow = false;    
+	}
 }
