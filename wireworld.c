@@ -66,7 +66,7 @@ int main() {
     else if (IsKeyPressed(KEY_SPACE)) playing = !playing;
     else if (IsKeyPressed(KEY_UP) && frames_per_tick > 1) frames_per_tick--;
     else if (IsKeyPressed(KEY_DOWN)) frames_per_tick++;
-    
+    else if (IsKeyPressed(KEY_X)) clearCells();
 
     cell_coord selected_cell = getCellIdx(GetMousePosition());
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) setCell(selected_cell, draw_state);
@@ -81,6 +81,7 @@ int main() {
         offset += drawHelpItem(state, draw_state, offset, WINDOW_HEIGHT + 15) + 20;
       }
       drawSpeed();
+      DrawText("x: Clear Screen", offset, WINDOW_HEIGHT + 15, 20, RAYWHITE);
       drawPlayingOrPausedIndicator();
     EndDrawing();
 
