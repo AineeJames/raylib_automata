@@ -24,7 +24,7 @@ int main() {
 }
 
 void draw2Dgrid(void){
-	Color Griddycolor = GRAY;
+	Color Griddycolor = {50,50,50,255};
 	for(int i = 0; i < WINDOW_WIDTH; i+=CELL_SIZE){
 		// Vertical Lines
 		Vector2 linestart = {i,0};
