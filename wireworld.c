@@ -93,7 +93,7 @@ int main() {
         draw_state = stateMouseHover;
     }
 
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT))
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !showSaveWindow) 
       setCell(selected_cell, draw_state);
 
     BeginDrawing();
