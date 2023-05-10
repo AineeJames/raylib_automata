@@ -53,3 +53,6 @@ dkms.conf
 
 # clang config for lsp
 .clangd
+
+# exe
+ww
