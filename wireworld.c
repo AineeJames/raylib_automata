@@ -110,10 +110,12 @@ int main() {
     DrawText("x: Clear Screen", offset, WINDOW_HEIGHT + 15, 20, RAYWHITE);
     drawPlayingOrPausedIndicator();
     drawSelectedCell(selected_cell, draw_state);
-    drawCursor(mousePos);
     if(showSaveWindow){
 	    savePopUp();
     }
+
+
+    drawCursor(mousePos);
     EndDrawing();
 	
     memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
