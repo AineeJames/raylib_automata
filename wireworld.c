@@ -25,6 +25,7 @@ cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 
 void draw2Dgrid(void);
 void initRandom(void);
+void drawCells(void);
 
 int main() {
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Wire World");
@@ -33,12 +34,21 @@ int main() {
   while(!WindowShouldClose()) {
     BeginDrawing();
       ClearBackground(BLACK);
+      drawCells();
       draw2Dgrid();
       DrawFPS(0,0);
     EndDrawing();
   }
   CloseWindow();
   return 0;
+}
+
+void drawCells(void) {
+	for(int i = 0; i < WINDOW_WIDTH; i+=CELL_SIZE){
+		for(int j = 0;j < WINDOW_HEIGHT; j+= CELL_SIZE){
+      DrawRectangle(i, j, CELL_SIZE, CELL_SIZE, state_colors[cell_grid[i][j]]);
+    }
+  }
 }
 
 void initRandom(void){
