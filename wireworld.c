@@ -194,7 +194,7 @@ void updateGrid(void){
 		if(cell_grid[i][j] == TAIL){
 			next_cell_grid[i][j] = WIRE;
 		}	
-		if(cell_grid[i][j] == HEAD && stateInMoore(i,j,TAIL)){
+		if(cell_grid[i][j] == HEAD && stateInMoore(i,j,TAIL) > 0){
 			next_cell_grid[i][j] = TAIL;
 		}
 		if(cell_grid[i][j] == WIRE && (stateInMoore(i,j,HEAD) == 1 || stateInMoore(i,j,HEAD) == 2)){
