@@ -1,7 +1,11 @@
 EXE=ww
-CC=cc
+CC=gcc
 
-run:
-	$(CC) wireworld.c `pkg-config --libs --cflags raylib` -o $(EXE)  
+run: clean
+	@echo "Compiling..."
+	$(CC) wireworld.c -o $(EXE) -lraylib  
 	@echo "Running..."
 	./$(EXE)
+
+clean:
+	rm -f $(EXE)
