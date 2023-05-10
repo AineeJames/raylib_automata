@@ -7,8 +7,16 @@
 #define GRID_WIDTH (WINDOW_WIDTH / CELL_SIZE)
 #define GRID_HEIGHT (WINDOW_HEIGHT / CELL_SIZE)
 
+enum cell_state {
+  EMPTY,
+  HEAD,
+  TAIL,
+  WIRE
+};
+
+enum cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 int main() {
-  InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "raylib [core] example - basic window");
+  InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Wire World");
   SetTargetFPS(60);   
   while(!WindowShouldClose()) {
     BeginDrawing();
