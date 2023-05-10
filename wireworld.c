@@ -38,6 +38,8 @@ typedef struct{
 cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
 bool playing = false;
+int frames_per_tick = 4;
+int frame_count = 0;
 
 void clearCells(void);
 void draw2Dgrid(void);
@@ -47,6 +49,7 @@ cell_coord getCellIdx(Vector2 mouse_pos);
 void setCell(cell_coord coordinate, cell_state new_state);
 int drawHelpItem(cell_state state, cell_state selected, int x, int y);
 void drawPlayingOrPausedIndicator();
+int stateInMoore(int x, int y, cell_state target_state);
 
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
@@ -79,10 +82,13 @@ int main() {
     EndDrawing();
 
     memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
-    if(playing){
-    updateGrid();
+    frame_count++;
+    if(frame_count == frames_per_tick){
+	frame_count = 0;
+    	if(playing){
+	    updateGrid();
+	}
     }
-    
   }
   CloseWindow();
   return 0;
@@ -161,7 +167,7 @@ void draw2Dgrid(void){
 		}
 	}
 }
-bool stateInMoore(int x, int y, cell_state target_state){
+int stateInMoore(int x, int y, cell_state target_state){
     int count = 0;
 
     // Check all 8 neighboring cells for the target state
@@ -196,10 +202,13 @@ void updateGrid(void){
 		if(cell_grid[i][j] == TAIL){
 			next_cell_grid[i][j] = WIRE;
 		}	
-		if(cell_grid[i][j] == HEAD && stateInMoore(i,j,TAIL)){
+		if(cell_grid[i][j] == HEAD && stateInMoore(i,j,TAIL) > 0){
 			next_cell_grid[i][j] = TAIL;
 		}
-		if(cell_grid[i][j] == WIRE && (stateInMoore(i,j,HEAD) == 1 || stateInMoore(i,j,HEAD) == 2)){
+		int number_of_heads = stateInMoore(i,j,HEAD);
+		if(cell_grid[i][j] == WIRE && (number_of_heads == 1 || number_of_heads == 2)){
+
+			TraceLog(LOG_DEBUG,"number of heads at %d,%d is %d",i,j,number_of_heads);	
 			next_cell_grid[i][j] = HEAD;
 		}
 	    }
