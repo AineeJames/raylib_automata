@@ -49,6 +49,7 @@ cell_coord getCellIdx(Vector2 mouse_pos);
 void setCell(cell_coord coordinate, cell_state new_state);
 int drawHelpItem(cell_state state, cell_state selected, int x, int y);
 void drawPlayingOrPausedIndicator();
+void drawSpeed();
 int stateInMoore(int x, int y, cell_state target_state);
 
 int main() {
@@ -63,6 +64,9 @@ int main() {
     else if (IsKeyPressed(KEY_THREE)) draw_state = TAIL;
     else if (IsKeyPressed(KEY_FOUR)) draw_state = EMPTY;
     else if (IsKeyPressed(KEY_SPACE)) playing = !playing;
+    else if (IsKeyPressed(KEY_UP) && frames_per_tick > 1) frames_per_tick--;
+    else if (IsKeyPressed(KEY_DOWN)) frames_per_tick++;
+    
 
     cell_coord selected_cell = getCellIdx(GetMousePosition());
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT)) setCell(selected_cell, draw_state);
@@ -76,12 +80,13 @@ int main() {
       for (int state = WIRE; state < EMPTY+1; state++) {
         offset += drawHelpItem(state, draw_state, offset, WINDOW_HEIGHT + 15) + 20;
       }
+      drawSpeed();
       drawPlayingOrPausedIndicator();
     EndDrawing();
 
     memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
     frame_count++;
-    if(frame_count == frames_per_tick){
+    if(frame_count % frames_per_tick == 0){
 	frame_count = 0;
     	if(playing){
 	    updateGrid();
@@ -98,6 +103,12 @@ void clearCells(void) {
       cell_grid[i][j] = EMPTY;
     }
   }
+}
+
+void drawSpeed(){
+    char speedstr[50];
+    sprintf(speedstr,"%d",frames_per_tick);
+    DrawText(speedstr,600,620,20,GREEN);
 }
 
 void drawPlayingOrPausedIndicator(){
@@ -206,7 +217,6 @@ void updateGrid(void){
 		int number_of_heads = stateInMoore(i,j,HEAD);
 		if(cell_grid[i][j] == WIRE && (number_of_heads == 1 || number_of_heads == 2)){
 
-			TraceLog(LOG_DEBUG,"number of heads at %d,%d is %d",i,j,number_of_heads);	
 			next_cell_grid[i][j] = HEAD;
 		}
 	    }
