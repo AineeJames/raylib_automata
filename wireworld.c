@@ -24,14 +24,18 @@ typedef enum {
 cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 
 void draw2Dgrid(void);
-void initRandom(void);
 void drawCells(void);
+Vector2 getCellIdx(Vector2 mouse_pos);
 
 int main() {
+  SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Wire World");
   SetTargetFPS(60);   
-  initRandom();
   while(!WindowShouldClose()) {
+    Vector2 selected_cell = getCellIdx(GetMousePosition());
+    int cell_x = (int)selected_cell.x;
+    int cell_y = (int)selected_cell.y;
+    TraceLog(LOG_DEBUG, "x,y = (%d,%d)", x, y);
     BeginDrawing();
       ClearBackground(BLACK);
       drawCells();
@@ -43,18 +47,17 @@ int main() {
   return 0;
 }
 
-void drawCells(void) {
-	for(int i = 0; i < WINDOW_WIDTH; i+=CELL_SIZE){
-		for(int j = 0;j < WINDOW_HEIGHT; j+= CELL_SIZE){
-      DrawRectangle(i, j, CELL_SIZE, CELL_SIZE, state_colors[cell_grid[i][j]]);
-    }
-  }
+Vector2 getCellIdx(Vector2 mouse_pos) {
+  Vector2 cell_idx = {0, 0};
+  cell_idx.x = mouse_pos.x / CELL_SIZE;
+  cell_idx.y = mouse_pos.y / CELL_SIZE;
+  return cell_idx;
 }
 
-void initRandom(void){
+void drawCells(void) {
   for(int i = 0; i < GRID_WIDTH; i++) {
     for(int j = 0; j < GRID_HEIGHT; j++) {
-      cell_grid[i][j] = (cell_state)GetRandomValue(0, 3);
+      DrawRectangle(i*CELL_SIZE, j*CELL_SIZE, CELL_SIZE, CELL_SIZE, state_colors[cell_grid[i][j]]);
     }
   }
 }
