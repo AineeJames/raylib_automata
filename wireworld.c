@@ -189,7 +189,7 @@ void drawSelectedCell(cell_coord selected_cell, cell_state state) {
   if (selected_cell.x >= 0 && selected_cell.y >= 0 &&
       selected_cell.x < GRID_WIDTH && selected_cell.y < GRID_HEIGHT) {
     DrawRectangle(selected_cell.x * CELL_SIZE, selected_cell.y * CELL_SIZE,
-                       CELL_SIZE, CELL_SIZE, Fade(state_colors[state], 0.25f));
+                       CELL_SIZE, CELL_SIZE, Fade(state_colors[state], 0.75f));
     DrawRectangleLines(selected_cell.x * CELL_SIZE, selected_cell.y * CELL_SIZE,
                        CELL_SIZE, CELL_SIZE, WHITE);
   }
