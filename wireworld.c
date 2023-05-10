@@ -30,17 +30,15 @@ cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 
 void draw2Dgrid(void);
 void drawCells(void);
-Vector2 getCellIdx(Vector2 mouse_pos);
+cell_coord getCellIdx(Vector2 mouse_pos);
 
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Wire World");
   SetTargetFPS(60);   
   while(!WindowShouldClose()) {
-    Vector2 selected_cell = getCellIdx(GetMousePosition());
-    int cell_x = (int)selected_cell.x;
-    int cell_y = (int)selected_cell.y;
-    TraceLog(LOG_DEBUG, "x,y = (%d,%d)", x, y);
+    cell_coord selected_cell = getCellIdx(GetMousePosition());
+    TraceLog(LOG_DEBUG, "x,y = (%d,%d)", selected_cell.x, selected_cell.y);
     BeginDrawing();
       ClearBackground(BLACK);
       drawCells();
@@ -52,8 +50,8 @@ int main() {
   return 0;
 }
 
-Vector2 getCellIdx(Vector2 mouse_pos) {
-  Vector2 cell_idx = {0, 0};
+cell_coord getCellIdx(Vector2 mouse_pos) {
+  cell_coord cell_idx = {0, 0};
   cell_idx.x = mouse_pos.x / CELL_SIZE;
   cell_idx.y = mouse_pos.y / CELL_SIZE;
   return cell_idx;
