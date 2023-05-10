@@ -53,12 +53,12 @@ int main() {
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + 50, "Wire World");
   SetTargetFPS(60);   
   clearCells();
-  cell_state draw_state = EMPTY;
+  cell_state draw_state = WIRE;
   while(!WindowShouldClose()) {
-    if (IsKeyPressed(49)) draw_state = WIRE;
-    else if (IsKeyPressed(50)) draw_state = HEAD;
-    else if (IsKeyPressed(51)) draw_state = TAIL;
-    else if (IsKeyPressed(52)) draw_state = EMPTY;
+    if (IsKeyPressed(KEY_ONE)) draw_state = WIRE;
+    else if (IsKeyPressed(KEY_TWO)) draw_state = HEAD;
+    else if (IsKeyPressed(KEY_THREE)) draw_state = TAIL;
+    else if (IsKeyPressed(KEY_FOUR)) draw_state = EMPTY;
     else if (IsKeyPressed(KEY_SPACE)) playing = !playing;
 
     cell_coord selected_cell = getCellIdx(GetMousePosition());
@@ -112,9 +112,10 @@ int drawHelpItem(cell_state state, cell_state selected, int x, int y) {
   char label[50];
   sprintf(label, "%d: %s", state + 1, state_names[state]);
   int width = MeasureText(label, 20);
-  DrawRectangle(x - 2, y, MeasureText(label, 20) + 4, 20, state_colors[state]);
+  Color rect_color = state < EMPTY ? state_colors[state] : (Color){75, 75, 75, 255};
+  DrawRectangle(x - 2, y, MeasureText(label, 20) + 4, 20, rect_color);
   if (state == selected) {
-    DrawRectangleLines(x - 5, y - 2, MeasureText(label, 20) + 10, 26, WHITE);
+    DrawRectangleLines(x - 5, y - 3, MeasureText(label, 20) + 10, 26, WHITE);
   }
   DrawText(label, x, y, 20, BLACK);
   return width;
