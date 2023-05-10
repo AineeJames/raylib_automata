@@ -1,5 +1,6 @@
 #include "raylib.h"
 #include <stdio.h>
+#include <string.h>
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
@@ -8,17 +9,24 @@
 #define GRID_HEIGHT (WINDOW_HEIGHT / CELL_SIZE)
 
 Color state_colors[] = {
-  BLACK,
+  YELLOW,
   BLUE,
   RED,
-  YELLOW
+  BLACK
+};
+
+const char * state_names[] = {
+  "WIRE",
+  "HEAD",
+  "TAIL",
+  "ERASE"
 };
 
 typedef enum {
-  EMPTY,
+  WIRE,
   HEAD,
   TAIL,
-  WIRE
+  EMPTY
 } cell_state;
 
 typedef struct{
@@ -28,15 +36,18 @@ typedef struct{
 
 cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 
+void clearCells(void);
 void draw2Dgrid(void);
 void drawCells(void);
 cell_coord getCellIdx(Vector2 mouse_pos);
 void setCell(cell_coord coordinate, cell_state new_state);
+int drawHelpItem(cell_state state, cell_state selected, int x, int y);
 
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
-  InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Wire World");
+  InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + 50, "Wire World");
   SetTargetFPS(60);   
+  clearCells();
   cell_state draw_state = EMPTY;
   while(!WindowShouldClose()) {
 
@@ -53,10 +64,34 @@ int main() {
       drawCells();
       draw2Dgrid();
       DrawFPS(0,0);
+      int offset = 15;
+      for (int state = WIRE; state < EMPTY+1; state++) {
+        offset += drawHelpItem(state, draw_state, offset, WINDOW_HEIGHT + 15) + 20;
+      }
     EndDrawing();
   }
   CloseWindow();
   return 0;
+}
+
+void clearCells(void) {
+  for(int i = 0; i < GRID_WIDTH; i++) {
+    for(int j = 0; j < GRID_HEIGHT; j++) {
+      cell_grid[i][j] = EMPTY;
+    }
+  }
+}
+
+int drawHelpItem(cell_state state, cell_state selected, int x, int y) { 
+  char label[50];
+  sprintf(label, "%d: %s", state + 1, state_names[state]);
+  int width = MeasureText(label, 20);
+  DrawRectangle(x - 2, y, MeasureText(label, 20) + 4, 20, state_colors[state]);
+  if (state == selected) {
+    DrawRectangleLines(x - 5, y - 2, MeasureText(label, 20) + 10, 26, WHITE);
+  }
+  DrawText(label, x, y, 20, BLACK);
+  return width;
 }
 
 void setCell(cell_coord coordinate, cell_state new_state){
@@ -83,12 +118,12 @@ void drawCells(void) {
 
 void draw2Dgrid(void){
 	Color Griddycolor = {50,50,50,255};
-	for(int i = 0; i < WINDOW_WIDTH; i+=CELL_SIZE){
+	for(int i = 0; i <= WINDOW_WIDTH; i+=CELL_SIZE){
 		// Vertical Lines
 		Vector2 linestart = {i,0};
 		Vector2 lineend = {i,WINDOW_HEIGHT};
 		DrawLineEx(linestart,lineend,1, Griddycolor);
-		for(int j = 0;j < WINDOW_HEIGHT; j+= CELL_SIZE){
+		for(int j = 0;j <= WINDOW_HEIGHT; j+= CELL_SIZE){
 			// Horizontal lines
 			Vector2 linestart = {0,j};
 			Vector2 lineend = {WINDOW_WIDTH,j};
