@@ -38,7 +38,10 @@ int main() {
   SetTargetFPS(60);   
   while(!WindowShouldClose()) {
     cell_coord selected_cell = getCellIdx(GetMousePosition());
-    TraceLog(LOG_DEBUG, "x,y = (%d,%d)", selected_cell.x, selected_cell.y);
+    if (IsKeyPressed(49)) TraceLog(LOG_DEBUG, "PRESSED 1");
+    if (IsKeyPressed(50)) TraceLog(LOG_DEBUG, "PRESSED 2");
+    if (IsKeyPressed(51)) TraceLog(LOG_DEBUG, "PRESSED 3");
+    if (IsKeyPressed(52)) TraceLog(LOG_DEBUG, "PRESSED 4");
     BeginDrawing();
       ClearBackground(BLACK);
       drawCells();
@@ -54,6 +57,7 @@ cell_coord getCellIdx(Vector2 mouse_pos) {
   cell_coord cell_idx = {0, 0};
   cell_idx.x = mouse_pos.x / CELL_SIZE;
   cell_idx.y = mouse_pos.y / CELL_SIZE;
+  // TraceLog(LOG_DEBUG, "x,y = (%d,%d)", cell_idx.x, cell_idx.y);
   return cell_idx;
 }
 
