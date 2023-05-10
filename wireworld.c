@@ -41,7 +41,7 @@ Rectangle colorsRects[4] = { 0 };
 
 void clearCells(void);
 void draw2Dgrid(void);
-void drawSelectedCell(cell_coord selected_cell);
+void drawSelectedCell(cell_coord selected_cell, cell_state state);
 void drawCells();
 void updateGrid(void);
 cell_coord getCellIdx(Vector2 mouse_pos);
@@ -102,7 +102,7 @@ int main() {
     drawSpeed();
     DrawText("x: Clear Screen", offset, WINDOW_HEIGHT + 15, 20, RAYWHITE);
     drawPlayingOrPausedIndicator();
-    drawSelectedCell(selected_cell);
+    drawSelectedCell(selected_cell, draw_state);
     drawCursor(mousePos);
     EndDrawing();
 	
@@ -184,10 +184,12 @@ cell_coord getCellIdx(Vector2 mouse_pos) {
   return cell_idx;
 }
 
-void drawSelectedCell(cell_coord selected_cell) {
+void drawSelectedCell(cell_coord selected_cell, cell_state state) {
 
   if (selected_cell.x >= 0 && selected_cell.y >= 0 &&
       selected_cell.x < GRID_WIDTH && selected_cell.y < GRID_HEIGHT) {
+    DrawRectangle(selected_cell.x * CELL_SIZE, selected_cell.y * CELL_SIZE,
+                       CELL_SIZE, CELL_SIZE, Fade(state_colors[state], 0.25f));
     DrawRectangleLines(selected_cell.x * CELL_SIZE, selected_cell.y * CELL_SIZE,
                        CELL_SIZE, CELL_SIZE, WHITE);
   }
