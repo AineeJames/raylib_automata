@@ -1,5 +1,7 @@
 #include "raylib.h"
 #include <stdio.h>
+#include <stdbool.h>
+#include <string.h>
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
@@ -27,6 +29,7 @@ typedef struct{
 }cell_coord;
 
 cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
+cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
 
 void draw2Dgrid(void);
 void drawCells(void);
@@ -39,7 +42,7 @@ int main() {
   SetTargetFPS(60);   
   cell_state draw_state = EMPTY;
   while(!WindowShouldClose()) {
-
+    memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
     if (IsKeyPressed(49)) draw_state = WIRE;
     else if (IsKeyPressed(50)) draw_state = HEAD;
     else if (IsKeyPressed(51)) draw_state = TAIL;
@@ -97,6 +100,27 @@ void draw2Dgrid(void){
 		}
 	}
 }
+bool stateInMoore(int x, int y, cell_state target_state){
+    int count = 0;
+
+    // Check all 8 neighboring cells for the target state
+    for (int i = x - 1; i <= x + 1; i++) {
+        for (int j = y - 1; j <= y + 1; j++) {
+            // Skip the cell itself
+            if (i == x && j == y) continue;
+
+            // Check if the neighboring cell is in bounds
+            if (i >= 0 && i < GRID_WIDTH && j >= 0 && j < GRID_HEIGHT) {
+                // Check if the neighboring cell has the target state
+                if (cell_grid[i][j] == target_state) {
+                    count++;
+                }
+            }
+        }
+    }
+
+    return count; 
+}
 
 void updateGrid(void){
 	/*
@@ -106,6 +130,19 @@ void updateGrid(void){
 	 *     electron head → electron tail,
 	 *     electron tail → conductor,
 	 *     conductor → electron head if exactly one or two of the neighbouring cells are electron heads, otherwise remains conductor.*/
-
+	  for(int i = 0; i < GRID_WIDTH; i++) {
+	    for(int j = 0; j < GRID_HEIGHT; j++) {
+		if(cell_grid[i][j] == TAIL){
+			next_cell_grid[i][j] = WIRE;
+		}	
+		if(cell_grid[i][j] == HEAD && stateInMoore(i,j,TAIL)){
+			next_cell_grid[i][j] = TAIL;
+		}
+		if(cell_grid[i][j] == WIRE && stateInMoore(i,j,HEAD)){
+			next_cell_grid[i][j] = HEAD;
+		}
+	    }
+	  }
+    	memcpy(&cell_grid, &next_cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
 	
 }
