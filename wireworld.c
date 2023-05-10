@@ -20,8 +20,8 @@
 #define GRID_WIDTH (WINDOW_WIDTH / CELL_SIZE)
 #define GRID_HEIGHT (WINDOW_HEIGHT / CELL_SIZE)
 
-const Color COPPER_PASTEL = {221, 140, 88, 255};
-Color state_colors[] = {COPPER_PASTEL, BLUE, RED, BLACK};
+// const Color COPPER_PASTEL = {221, 140, 88, 255};
+Color state_colors[] = {(Color){221,140,88,255}, BLUE, RED, BLACK};
 
 const char *state_names[] = {"WIRE", "HEAD", "TAIL", "ERASE"};
 
@@ -50,11 +50,13 @@ int drawHelpItem(cell_state state, cell_state selected, int x, int y);
 void drawPlayingOrPausedIndicator();
 void drawSpeed();
 int stateInMoore(int x, int y, cell_state target_state);
+void drawCursor(Vector2 pos);
 
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + 50, "Wire World");
   SetTargetFPS(60);
+  HideCursor();
   clearCells();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
@@ -101,6 +103,7 @@ int main() {
     DrawText("x: Clear Screen", offset, WINDOW_HEIGHT + 15, 20, RAYWHITE);
     drawPlayingOrPausedIndicator();
     drawSelectedCell(selected_cell);
+    drawCursor(mousePos);
     EndDrawing();
 	
     memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
@@ -114,6 +117,10 @@ int main() {
   }
   CloseWindow();
   return 0;
+}
+
+void drawCursor(Vector2 pos){
+  DrawRectangle(pos.x, pos.y, 2, 2, RAYWHITE);
 }
 
 void clearCells(void) {
