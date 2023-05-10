@@ -1,4 +1,5 @@
 #include "raylib.h"
+#include "raygui.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
