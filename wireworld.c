@@ -343,8 +343,20 @@ void loadPopUp(void) {
       unsigned int bytes_read;
       unsigned char *loaded_data = LoadFileData(textInputFileName, &bytes_read);
       TraceLog(LOG_INFO, "Read %d bytes from file %s\n", bytes_read, textInputFileName);
+      unsigned int expected_bytes = GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state);
+
+      if (bytes_read == expected_bytes){
+      // TODO validate loaded cell_grid to
+      // ensure the values make sense i.e. are 
+      // in enum
       memcpy(cell_grid, loaded_data,
              GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
+      }
+      else{
+	//TODO Add popup when load fails
+        TraceLog(LOG_ERROR, "File %s loaded %d bytes when %d were expected\n", textInputFileName, bytes_read, expected_bytes);
+	}
+
     } else {
       TraceLog(LOG_DEBUG, "tried to load from %s but found it was not a file\n",
                textInputFileName);
