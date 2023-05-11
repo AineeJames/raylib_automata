@@ -295,6 +295,7 @@ void savePopUp(void) {
 	    // TODO: Validate textInput value and save
 
 	    strcpy(textInputFileName, textInput);
+	    SaveFileData(textInputFileName, cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
 	}
 
 	if ((result == 0) || (result == 1) || (result == 2))
