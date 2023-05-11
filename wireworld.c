@@ -41,6 +41,7 @@ bool playing = false;
 int frames_per_tick = 4;
 int frame_count = 0;
 bool showSaveWindow = false;
+bool showLoadWindow = false;
 Rectangle colorsRects[4] = { 0 };
 char textInput[50] = {0};
 char textInputFileName[50] = {0};
@@ -78,6 +79,7 @@ int main() {
     else if (IsKeyPressed(KEY_DOWN)) frames_per_tick++;
     else if (IsKeyPressed(KEY_X) &&! showSaveWindow ) clearCells();
     else if (IsKeyPressed(KEY_S)) showSaveWindow = true;
+    else if (IsKeyPressed(KEY_L)) showLoadWindow = true;
     Vector2 mousePos = GetMousePosition();
     for (int i = 0; i < 4; i++)
     {
@@ -116,6 +118,9 @@ int main() {
 	    savePopUp();
     }
 
+    if(showLoadWindow){
+	    loadPopUp();
+    }
 
     drawCursor(mousePos);
     EndDrawing();
@@ -303,4 +308,33 @@ void savePopUp(void) {
 	    strcpy(textInput, "\0");
 	    showSaveWindow = false;    
 	}
+}
+
+void loadPopUp(void){
+	DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(RAYWHITE, 0.8f));
+	int result = GuiTextInputBox((Rectangle){ (float)GetScreenWidth()/2 - 120, (float)GetScreenHeight()/2 - 60, 240, 140 }, "Load", GuiIconText(ICON_FILE_COPY, "Load file..."), "Ok;Cancel", textInput, 255, NULL);
+
+	if (result == 1)
+	{
+	    // TODO: Validate textInput value and save
+
+	    strcpy(textInputFileName, textInput);
+	    bool real_file = FileExists(textInputFileName);
+	    if(real_file){
+		    TraceLog(LOG_DEBUG, "Attempting to load from file %s\n", textInputFileName);
+		    unsigned int bytes_read;
+		    unsigned char * loaded_data = LoadFileData(textInputFileName, &bytes_read);
+		    memcpy(cell_grid,loaded_data, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
+	    }
+	    else{
+		    TraceLog(LOG_DEBUG, "tried to load from %s but found it was not a file\n", textInputFileName);
+		}
+	}
+
+	if ((result == 0) || (result == 1) || (result == 2))
+	{
+	    strcpy(textInput, "\0");
+	    showLoadWindow = false;    
+	}
+
 }
