@@ -342,6 +342,7 @@ void loadPopUp(void) {
                textInputFileName);
       unsigned int bytes_read;
       unsigned char *loaded_data = LoadFileData(textInputFileName, &bytes_read);
+      TraceLog(LOG_INFO, "Read %d bytes from file %s\n", bytes_read, textInputFileName);
       memcpy(cell_grid, loaded_data,
              GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
     } else {
