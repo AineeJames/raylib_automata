@@ -76,7 +76,7 @@ int main() {
     else if (IsKeyPressed(KEY_SPACE)) playing = !playing;
     else if (IsKeyPressed(KEY_UP) && frames_per_tick > 1) frames_per_tick--;
     else if (IsKeyPressed(KEY_DOWN)) frames_per_tick++;
-    else if (IsKeyPressed(KEY_X)) clearCells();
+    else if (IsKeyPressed(KEY_X) &&! showSaveWindow ) clearCells();
     else if (IsKeyPressed(KEY_S)) showSaveWindow = true;
     Vector2 mousePos = GetMousePosition();
     for (int i = 0; i < 4; i++)
