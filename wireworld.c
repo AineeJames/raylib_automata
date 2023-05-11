@@ -59,6 +59,7 @@ void drawSpeed();
 int stateInMoore(int x, int y, cell_state target_state);
 void drawCursor(Vector2 pos);
 void savePopUp(void);
+void loadPopUp(void);
 
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
