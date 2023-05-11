@@ -312,6 +312,7 @@ void savePopUp(void) {
     // TODO: Validate textInput value and save
 
     strcpy(textInputFileName, textInput);
+    strcat(textInputFileName, ".wwld");
     SaveFileData(textInputFileName, cell_grid,
                  GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
   }
