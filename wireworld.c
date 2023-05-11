@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
+#include "styles/style_dark.h"
 #include <time.h>
 
 
@@ -61,6 +62,7 @@ void savePopUp(void);
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + 50, "Wire World");
+  GuiLoadStyleDark();
   SetTargetFPS(60);
   HideCursor();
   clearCells();
