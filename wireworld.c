@@ -1,12 +1,11 @@
 #include "raylib.h"
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
+#include "styles/style_dark.h"
 #include <stdbool.h>
 #include <stdio.h>
 #include <string.h>
-#include "styles/style_dark.h"
 #include <time.h>
-
 
 /*
  * If much larger cell grid is desired
@@ -19,12 +18,12 @@
 
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
-#define CELL_SIZE 20 
+#define CELL_SIZE 20
 #define GRID_WIDTH (WINDOW_WIDTH / CELL_SIZE)
 #define GRID_HEIGHT (WINDOW_HEIGHT / CELL_SIZE)
 
 // const Color COPPER_PASTEL = {221, 140, 88, 255};
-Color state_colors[] = {(Color){221,140,88,255}, BLUE, RED, BLACK};
+Color state_colors[] = {(Color){221, 140, 88, 255}, BLUE, RED, BLACK};
 
 const char *state_names[] = {"WIRE", "HEAD", "TAIL", "ERASE"};
 
@@ -42,7 +41,7 @@ int frames_per_tick = 4;
 int frame_count = 0;
 bool showSaveWindow = false;
 bool showLoadWindow = false;
-Rectangle colorsRects[4] = { 0 };
+Rectangle colorsRects[4] = {0};
 char textInput[50] = {0};
 char textInputFileName[50] = {0};
 
@@ -70,35 +69,42 @@ int main() {
   clearCells();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
-  while(!WindowShouldClose()) {
-    if (IsKeyPressed(KEY_ONE)) draw_state = WIRE;
-    else if (IsKeyPressed(KEY_TWO)) draw_state = HEAD;
-    else if (IsKeyPressed(KEY_THREE)) draw_state = TAIL;
-    else if (IsKeyPressed(KEY_FOUR)) draw_state = EMPTY;
-    else if (IsKeyPressed(KEY_SPACE)) playing = !playing;
-    else if (IsKeyPressed(KEY_UP) && frames_per_tick > 1) frames_per_tick--;
-    else if (IsKeyPressed(KEY_DOWN)) frames_per_tick++;
-    else if (IsKeyPressed(KEY_X) && !showSaveWindow ) clearCells();
-    else if (IsKeyPressed(KEY_S) && !showLoadWindow) showSaveWindow = true;
-    else if (IsKeyPressed(KEY_L) && !showSaveWindow) showLoadWindow = true;
+  while (!WindowShouldClose()) {
+    if (IsKeyPressed(KEY_ONE))
+      draw_state = WIRE;
+    else if (IsKeyPressed(KEY_TWO))
+      draw_state = HEAD;
+    else if (IsKeyPressed(KEY_THREE))
+      draw_state = TAIL;
+    else if (IsKeyPressed(KEY_FOUR))
+      draw_state = EMPTY;
+    else if (IsKeyPressed(KEY_SPACE))
+      playing = !playing;
+    else if (IsKeyPressed(KEY_UP) && frames_per_tick > 1)
+      frames_per_tick--;
+    else if (IsKeyPressed(KEY_DOWN))
+      frames_per_tick++;
+    else if (IsKeyPressed(KEY_X) && !showSaveWindow)
+      clearCells();
+    else if (IsKeyPressed(KEY_S) && !showLoadWindow)
+      showSaveWindow = true;
+    else if (IsKeyPressed(KEY_L) && !showSaveWindow)
+      showLoadWindow = true;
     Vector2 mousePos = GetMousePosition();
-    for (int i = 0; i < 4; i++)
-    {
-	if (CheckCollisionPointRec(mousePos, colorsRects[i]))
-	{
-		stateMouseHover = i;
-		break;
-	}
-	else stateMouseHover = -1;
+    for (int i = 0; i < 4; i++) {
+      if (CheckCollisionPointRec(mousePos, colorsRects[i])) {
+        stateMouseHover = i;
+        break;
+      } else
+        stateMouseHover = -1;
     }
 
     cell_coord selected_cell = getCellIdx(mousePos);
-    if ((stateMouseHover >= 0) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-    {
-        draw_state = stateMouseHover;
+    if ((stateMouseHover >= 0) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
+      draw_state = stateMouseHover;
     }
 
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !showSaveWindow) 
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !showSaveWindow)
       setCell(selected_cell, draw_state);
 
     BeginDrawing();
@@ -115,18 +121,19 @@ int main() {
     DrawText("x: Clear Screen", offset, WINDOW_HEIGHT + 15, 20, RAYWHITE);
     drawPlayingOrPausedIndicator();
     drawSelectedCell(selected_cell, draw_state);
-    if(showSaveWindow){
-	    savePopUp();
+    if (showSaveWindow) {
+      savePopUp();
     }
 
-    if(showLoadWindow){
-	    loadPopUp();
+    if (showLoadWindow) {
+      loadPopUp();
     }
 
     drawCursor(mousePos);
     EndDrawing();
-	
-    memcpy(&next_cell_grid, &cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state)); 
+
+    memcpy(&next_cell_grid, &cell_grid,
+           GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
     frame_count++;
     if (frame_count % frames_per_tick == 0) {
       frame_count = 0;
@@ -139,7 +146,7 @@ int main() {
   return 0;
 }
 
-void drawCursor(Vector2 pos){
+void drawCursor(Vector2 pos) {
   DrawRectangleLines(pos.x - 5, pos.y - 5, 8, 8, RAYWHITE);
   DrawRectangle(pos.x - 2, pos.y - 2, 2, 2, RAYWHITE);
 }
@@ -179,7 +186,7 @@ int drawHelpItem(cell_state state, cell_state selected, int x, int y) {
       state < EMPTY ? state_colors[state] : (Color){75, 75, 75, 255};
   DrawRectangle(x - 2, y, MeasureText(label, 20) + 4, 20, rect_color);
 
-  colorsRects[state] = (Rectangle) {x - 2, y, MeasureText(label, 20) + 4, 20};
+  colorsRects[state] = (Rectangle){x - 2, y, MeasureText(label, 20) + 4, 20};
 
   if (state == selected) {
     DrawRectangleLines(x - 5, y - 3, MeasureText(label, 20) + 10, 26, WHITE);
@@ -209,7 +216,7 @@ void drawSelectedCell(cell_coord selected_cell, cell_state state) {
   if (selected_cell.x >= 0 && selected_cell.y >= 0 &&
       selected_cell.x < GRID_WIDTH && selected_cell.y < GRID_HEIGHT) {
     DrawRectangle(selected_cell.x * CELL_SIZE, selected_cell.y * CELL_SIZE,
-                       CELL_SIZE, CELL_SIZE, Fade(state_colors[state], 0.75f));
+                  CELL_SIZE, CELL_SIZE, Fade(state_colors[state], 0.75f));
     DrawRectangleLines(selected_cell.x * CELL_SIZE, selected_cell.y * CELL_SIZE,
                        CELL_SIZE, CELL_SIZE, WHITE);
   }
@@ -293,49 +300,57 @@ void updateGrid(void) {
 }
 
 void savePopUp(void) {
-	DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(RAYWHITE, 0.8f));
-	int result = GuiTextInputBox((Rectangle){ (float)GetScreenWidth()/2 - 120, (float)GetScreenHeight()/2 - 60, 240, 140 }, "Save", GuiIconText(ICON_FILE_SAVE, "Save file as..."), "Ok;Cancel", textInput, 255, NULL);
+  DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(),
+                Fade(RAYWHITE, 0.8f));
+  int result =
+      GuiTextInputBox((Rectangle){(float)GetScreenWidth() / 2 - 120,
+                                  (float)GetScreenHeight() / 2 - 60, 240, 140},
+                      "Save", GuiIconText(ICON_FILE_SAVE, "Save file as..."),
+                      "Ok;Cancel", textInput, 255, NULL);
 
-	if (result == 1)
-	{
-	    // TODO: Validate textInput value and save
+  if (result == 1) {
+    // TODO: Validate textInput value and save
 
-	    strcpy(textInputFileName, textInput);
-	    SaveFileData(textInputFileName, cell_grid, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
-	}
+    strcpy(textInputFileName, textInput);
+    SaveFileData(textInputFileName, cell_grid,
+                 GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
+  }
 
-	if ((result == 0) || (result == 1) || (result == 2))
-	{
-	    strcpy(textInput, "\0");
-	    showSaveWindow = false;    
-	}
+  if ((result == 0) || (result == 1) || (result == 2)) {
+    strcpy(textInput, "\0");
+    showSaveWindow = false;
+  }
 }
 
-void loadPopUp(void){
-	DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(), Fade(RAYWHITE, 0.8f));
-	int result = GuiTextInputBox((Rectangle){ (float)GetScreenWidth()/2 - 120, (float)GetScreenHeight()/2 - 60, 240, 140 }, "Load", GuiIconText(ICON_FILE_COPY, "Load file..."), "Ok;Cancel", textInput, 255, NULL);
+void loadPopUp(void) {
+  DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(),
+                Fade(RAYWHITE, 0.8f));
+  int result =
+      GuiTextInputBox((Rectangle){(float)GetScreenWidth() / 2 - 120,
+                                  (float)GetScreenHeight() / 2 - 60, 240, 140},
+                      "Load", GuiIconText(ICON_FILE_COPY, "Load file..."),
+                      "Ok;Cancel", textInput, 255, NULL);
 
-	if (result == 1)
-	{
-	    // TODO: Validate textInput value and save
+  if (result == 1) {
+    // TODO: Validate textInput value and save
 
-	    strcpy(textInputFileName, textInput);
-	    bool real_file = FileExists(textInputFileName);
-	    if(real_file){
-		    TraceLog(LOG_DEBUG, "Attempting to load from file %s\n", textInputFileName);
-		    unsigned int bytes_read;
-		    unsigned char * loaded_data = LoadFileData(textInputFileName, &bytes_read);
-		    memcpy(cell_grid,loaded_data, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
-	    }
-	    else{
-		    TraceLog(LOG_DEBUG, "tried to load from %s but found it was not a file\n", textInputFileName);
-		}
-	}
+    strcpy(textInputFileName, textInput);
+    bool real_file = FileExists(textInputFileName);
+    if (real_file) {
+      TraceLog(LOG_DEBUG, "Attempting to load from file %s\n",
+               textInputFileName);
+      unsigned int bytes_read;
+      unsigned char *loaded_data = LoadFileData(textInputFileName, &bytes_read);
+      memcpy(cell_grid, loaded_data,
+             GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
+    } else {
+      TraceLog(LOG_DEBUG, "tried to load from %s but found it was not a file\n",
+               textInputFileName);
+    }
+  }
 
-	if ((result == 0) || (result == 1) || (result == 2))
-	{
-	    strcpy(textInput, "\0");
-	    showLoadWindow = false;    
-	}
-
+  if ((result == 0) || (result == 1) || (result == 2)) {
+    strcpy(textInput, "\0");
+    showLoadWindow = false;
+  }
 }
