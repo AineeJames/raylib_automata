@@ -18,7 +18,6 @@
  * be more efficient?
  * */
 
-// const Color COPPER_PASTEL = {221, 140, 88, 255};
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + 50, "Wire World");

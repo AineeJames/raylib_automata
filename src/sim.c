@@ -1,4 +1,6 @@
 #include "sim.h"
+
+// const Color COPPER_PASTEL = {221, 140, 88, 255};
 Color state_colors[] = {(Color){221, 140, 88, 255}, BLUE, RED, BLACK};
 
 const char *state_names[] = {"WIRE", "HEAD", "TAIL", "ERASE"};
