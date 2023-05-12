@@ -1,5 +1,6 @@
 EXE=ww
-CC=gcc
+CC=gcc 
+CFLAGS=-Wall -O3 -g3
 
 
 ifeq ($(OS),Windows_NT)
@@ -8,6 +9,7 @@ ifeq ($(OS),Windows_NT)
         UNAMEOS=$(shell uname)
         ifeq ($(UNAMEOS),Linux)
             PLATFORM_OS=LINUX
+	    RAYFLAGS=-lraylib -g3 -lGL -lm -lpthread -ldl -lrt
         endif
         ifeq ($(UNAMEOS),FreeBSD)
             PLATFORM_OS=BSD
@@ -23,13 +25,9 @@ ifeq ($(OS),Windows_NT)
         endif
         ifeq ($(UNAMEOS),Darwin)
             PLATFORM_OS=OSX
+	    RAYFLAGS=-lraylib -lraylib -framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo
         endif
     endif
 all:
 	@echo "Compiling..."
-ifeq ($(PLATFORM_OS),OSX)
-		$(CC) wireworld.c -o ../$(EXE) -lraylib -g3 -lraylib -framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo
-endif
-ifeq ($(PLATFORM_OS),LINUX)
-		$(CC) wireworld.c -o ../$(EXE) -lraylib -g3 -lGL -lm -lpthread -ldl -lrt
-endif
+	$(CC) wireworld.c -o ../$(EXE) $(RAYFLAGS) $(CFLAGS)
