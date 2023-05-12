@@ -31,3 +31,5 @@ ifeq ($(OS),Windows_NT)
 all:
 	@echo "Compiling..."
 	$(CC) wireworld.c -o ../$(EXE) $(RAYFLAGS) $(CFLAGS)
+run: all
+	../ww
