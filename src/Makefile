@@ -2,7 +2,7 @@ EXE=ww
 CC=gcc 
 CFLAGS=-Wall -O3
 DEBUGFLAGS=-g3
-SOURCES=wireworld.c
+SOURCES=wireworld.c gui_utils.c
 OBJECTS=$(SOURCES:.c=.o)
 all: executable
 
