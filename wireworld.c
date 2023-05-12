@@ -333,7 +333,7 @@ void loadPopUp(void) {
                       "Ok;Cancel", textInput, 255, NULL);
 
   if (result == 1) {
-    // TODO: Validate textInput value and save
+    // TODO: added file selection dialog for load
 
     strcpy(textInputFileName, textInput);
     bool real_file = FileExists(textInputFileName);
