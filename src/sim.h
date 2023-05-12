@@ -3,6 +3,7 @@
 #include "raylib.h"
 #include "screen.h"
 #include <stdbool.h>
+#include <string.h>
 // Place contents here
 extern Color state_colors[];
 
