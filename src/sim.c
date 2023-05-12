@@ -34,8 +34,8 @@ cell_coord getCellIdx(Vector2 mouse_pos) {
   return cell_idx;
 }
 
-int stateInMoore(int x, int y, cell_state target_state) {
-  int count = 0;
+cell_neighbors stateInMoore(int x, int y) {
+  cell_neighbors neighbors = {0};
 
   // Check all 8 neighboring cells for the target state
   for (int i = x - 1; i <= x + 1; i++) {
@@ -47,14 +47,18 @@ int stateInMoore(int x, int y, cell_state target_state) {
       // Check if the neighboring cell is in bounds
       if (i >= 0 && i < GRID_WIDTH && j >= 0 && j < GRID_HEIGHT) {
         // Check if the neighboring cell has the target state
-        if (cell_grid[i][j] == target_state) {
-          count++;
+        if (cell_grid[i][j] == HEAD) {
+          neighbors.heads++;
+        }
+
+        if (cell_grid[i][j] == TAIL) {
+          neighbors.tails++;
         }
       }
     }
   }
 
-  return count;
+  return neighbors;
 }
 
 void updateGrid(void) {
@@ -69,15 +73,16 @@ void updateGrid(void) {
    * cells are electron heads, otherwise remains conductor.*/
   for (int i = 0; i < GRID_WIDTH; i++) {
     for (int j = 0; j < GRID_HEIGHT; j++) {
+
+      cell_neighbors neighbors = stateInMoore(i, j);
       if (cell_grid[i][j] == TAIL) {
         next_cell_grid[i][j] = WIRE;
       }
-      if (cell_grid[i][j] == HEAD && stateInMoore(i, j, TAIL) > 0) {
+      if (cell_grid[i][j] == HEAD && neighbors.tails > 0) {
         next_cell_grid[i][j] = TAIL;
       }
-      int number_of_heads = stateInMoore(i, j, HEAD);
       if (cell_grid[i][j] == WIRE &&
-          (number_of_heads == 1 || number_of_heads == 2)) {
+          (neighbors.heads == 1 || neighbors.heads == 2)) {
 
         next_cell_grid[i][j] = HEAD;
       }

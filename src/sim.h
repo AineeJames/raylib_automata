@@ -16,6 +16,11 @@ typedef struct {
   int y;
 } cell_coord;
 
+typedef struct {
+  int heads;
+  int tails;
+} cell_neighbors;
+
 extern cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 extern cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
 extern bool playing;
@@ -26,7 +31,7 @@ void updateGrid(void);
 void clearCells(void);
 cell_coord getCellIdx(Vector2 mouse_pos);
 void setCell(cell_coord coordinate, cell_state new_state);
-int stateInMoore(int x, int y, cell_state target_state);
+cell_neighbors stateInMoore(int x, int y);
 void loadDefault(void);
 
 #endif // !SIM_H
