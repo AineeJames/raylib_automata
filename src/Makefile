@@ -31,5 +31,8 @@ all: $(OBJECTS)
 .c.o:
 	$(CC) $(CFLAGS) $(RAYFLAGS) -c $< -o $@
 
+clean:
+	rm -f $(OBJECTS)
+
 run: all
 	../ww
