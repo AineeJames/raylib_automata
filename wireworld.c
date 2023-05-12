@@ -104,7 +104,8 @@ int main() {
       draw_state = stateMouseHover;
     }
 
-    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !showSaveWindow && !showLoadWindow)
+    if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !showSaveWindow &&
+        !showLoadWindow)
       setCell(selected_cell, draw_state);
 
     BeginDrawing();
@@ -333,7 +334,9 @@ void loadPopUp(void) {
                       "Ok;Cancel", textInput, 255, NULL);
 
   if (result == 1) {
-    // TODO: added file selection dialog for load
+    // TODO: added file selection dialog for load exists
+    // example here
+    // https://github.com/raysan5/raygui/blob/master/examples/custom_file_dialog/gui_file_dialog.h
 
     strcpy(textInputFileName, textInput);
     bool real_file = FileExists(textInputFileName);
@@ -342,20 +345,22 @@ void loadPopUp(void) {
                textInputFileName);
       unsigned int bytes_read;
       unsigned char *loaded_data = LoadFileData(textInputFileName, &bytes_read);
-      TraceLog(LOG_INFO, "Read %d bytes from file %s\n", bytes_read, textInputFileName);
-      unsigned int expected_bytes = GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state);
+      TraceLog(LOG_INFO, "Read %d bytes from file %s\n", bytes_read,
+               textInputFileName);
+      unsigned int expected_bytes =
+          GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state);
 
-      if (bytes_read == expected_bytes){
-      // TODO validate loaded cell_grid to
-      // ensure the values make sense i.e. are 
-      // in enum
-      memcpy(cell_grid, loaded_data,
-             GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
+      if (bytes_read == expected_bytes) {
+        // TODO validate loaded cell_grid to
+        // ensure the values make sense i.e. are
+        // in enum
+        memcpy(cell_grid, loaded_data,
+               GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
+      } else {
+        // TODO Add popup when load fails
+        TraceLog(LOG_ERROR, "File %s loaded %d bytes when %d were expected\n",
+                 textInputFileName, bytes_read, expected_bytes);
       }
-      else{
-	//TODO Add popup when load fails
-        TraceLog(LOG_ERROR, "File %s loaded %d bytes when %d were expected\n", textInputFileName, bytes_read, expected_bytes);
-	}
 
     } else {
       TraceLog(LOG_DEBUG, "tried to load from %s but found it was not a file\n",
