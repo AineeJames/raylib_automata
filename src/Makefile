@@ -19,6 +19,11 @@ ifeq ($(OS),Windows_NT)
 	    	RAYFLAGS=-lraylib -lraylib -framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo
         endif
     endif
+
+debug: CFLAGS += -g3
+debug: all
+	@echo "Comiling debug version"
+
 all: $(OBJECTS)
 	@echo "Compiling..."
 	$(CC) $(OBJECTS) -o ../$(EXE) $(RAYFLAGS) $(CFLAGS)
