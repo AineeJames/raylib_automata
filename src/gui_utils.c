@@ -34,13 +34,6 @@ void savePopUp(void) {
   }
 }
 
-void loadDefault(void) {
-  char default_str[10] = "default";
-  unsigned int bytes_read;
-  unsigned char *loaded_data = LoadFileData(default_str, &bytes_read);
-  memcpy(cell_grid, loaded_data, GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
-}
-
 void loadPopUp(void) {
   DrawRectangle(0, 0, GetScreenWidth(), GetScreenHeight(),
                 Fade(RAYWHITE, 0.8f));
