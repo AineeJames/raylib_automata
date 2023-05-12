@@ -22,5 +22,6 @@ void drawSpeed();
 void draw2Dgrid(void);
 void drawSelectedCell(cell_coord selected_cell, cell_state state);
 void drawCells();
+void loadDefault(void);
 
 #endif // !GUI_UTILS_H

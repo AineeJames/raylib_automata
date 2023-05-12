@@ -31,9 +31,9 @@ int main() {
   GuiLoadStyleDark();
   SetTargetFPS(60);
   HideCursor();
-  clearCells();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
+  loadDefault();
   while (!WindowShouldClose()) {
     if (IsKeyPressed(KEY_ONE))
       draw_state = WIRE;
