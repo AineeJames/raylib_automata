@@ -2,22 +2,16 @@
 #define GUI_UTILS_H
 
 #include "raygui.h"
-#include "raylib.h"
+#include "screen.h"
 #include "sim.h"
 #include <stdio.h>
 #include <strings.h>
 
-#define CELL_SIZE 20
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
-#define GRID_WIDTH (WINDOW_WIDTH / CELL_SIZE)
-#define GRID_HEIGHT (WINDOW_HEIGHT / CELL_SIZE)
-
-char textInput[50] = {0};
-char textInputFileName[50] = {0};
-bool showSaveWindow = false;
-bool showLoadWindow = false;
-Rectangle colorsRects[4] = {0};
+extern char textInput[50];
+extern char textInputFileName[50];
+extern bool showSaveWindow;
+extern bool showLoadWindow;
+extern Rectangle colorsRects[4];
 
 void drawCursor(Vector2 pos);
 void savePopUp(void);

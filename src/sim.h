@@ -1,11 +1,12 @@
 #ifndef SIM_H
 #define SIM_H
-#include "gui_utils.h"
-
+#include "raylib.h"
+#include "screen.h"
+#include <stdbool.h>
 // Place contents here
-Color state_colors[] = {(Color){221, 140, 88, 255}, BLUE, RED, BLACK};
+extern Color state_colors[];
 
-const char *state_names[] = {"WIRE", "HEAD", "TAIL", "ERASE"};
+extern const char *state_names[];
 
 typedef enum { WIRE, HEAD, TAIL, EMPTY } cell_state;
 
@@ -14,6 +15,10 @@ typedef struct {
   int y;
 } cell_coord;
 
-cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
-cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
+extern cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
+extern cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
+extern bool playing;
+extern int frames_per_tick;
+extern int frame_count;
+
 #endif // !SIM_H

@@ -19,10 +19,6 @@
  * */
 
 // const Color COPPER_PASTEL = {221, 140, 88, 255};
-bool playing = false;
-int frames_per_tick = 4;
-int frame_count = 0;
-
 void clearCells(void);
 void updateGrid(void);
 cell_coord getCellIdx(Vector2 mouse_pos);

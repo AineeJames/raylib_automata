@@ -1,4 +1,9 @@
 #include "gui_utils.h"
+char textInput[50] = {0};
+char textInputFileName[50] = {0};
+bool showSaveWindow = false;
+bool showLoadWindow = false;
+Rectangle colorsRects[4] = {0};
 
 void drawCursor(Vector2 pos) {
   DrawRectangleLines(pos.x - 5, pos.y - 5, 8, 8, RAYWHITE);
