@@ -4,7 +4,7 @@ CFLAGS=-Wall -O3
 DEBUGFLAGS=-g3
 SOURCES=wireworld.c
 OBJECTS=$(SOURCES:.c=.o)
-
+all: executable
 
 ifeq ($(OS),Windows_NT)
         PLATFORM_OS=WINDOWS
@@ -20,11 +20,11 @@ ifeq ($(OS),Windows_NT)
         endif
     endif
 
-debug: CFLAGS += -g3
+debug: CFLAGS += -g3	
+debug: EXE=debugww
 debug: all
-	@echo "Comiling debug version"
 
-all: $(OBJECTS)
+executable: $(OBJECTS)
 	@echo "Compiling..."
 	$(CC) $(OBJECTS) -o ../$(EXE) $(RAYFLAGS) $(CFLAGS)
 
