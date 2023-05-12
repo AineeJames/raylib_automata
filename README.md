@@ -4,6 +4,20 @@
 
 ## Install
 
-- Clone the repo
-- Install raylib
-- Run make
+### Clone the repo:
+
+```shell
+$ git clone https://github.com/AineeJames/raylib_automata
+$ cd raylib_automata
+```
+### Install raylib
+   
+[https://www.raylib.com/](https://www.raylib.com/)
+
+### Compile:
+
+```shell
+$ make
+```
+
+    
