@@ -17,4 +17,6 @@ typedef struct {
   int y;
 } cell_coord;
 
+cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
+cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
 #endif // !SIM_H
