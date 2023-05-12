@@ -21,4 +21,10 @@ extern bool playing;
 extern int frames_per_tick;
 extern int frame_count;
 
+void updateGrid(void);
+void clearCells(void);
+cell_coord getCellIdx(Vector2 mouse_pos);
+void setCell(cell_coord coordinate, cell_state new_state);
+int stateInMoore(int x, int y, cell_state target_state);
+
 #endif // !SIM_H
