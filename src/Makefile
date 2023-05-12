@@ -1,6 +1,7 @@
 EXE=ww
 CC=gcc
 
+
 ifeq ($(OS),Windows_NT)
         PLATFORM_OS=WINDOWS
     else
@@ -24,7 +25,7 @@ ifeq ($(OS),Windows_NT)
             PLATFORM_OS=OSX
         endif
     endif
-run:
+all:
 	@echo "Compiling..."
 ifeq ($(PLATFORM_OS),OSX)
 		$(CC) wireworld.c -o ../$(EXE) -lraylib -g3 -lraylib -framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo
@@ -32,5 +33,3 @@ endif
 ifeq ($(PLATFORM_OS),LINUX)
 		$(CC) wireworld.c -o ../$(EXE) -lraylib -g3 -lGL -lm -lpthread -ldl -lrt
 endif
-	@echo "Running..."
-	../$(EXE)
