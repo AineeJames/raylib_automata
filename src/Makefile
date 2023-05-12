@@ -9,23 +9,11 @@ ifeq ($(OS),Windows_NT)
         UNAMEOS=$(shell uname)
         ifeq ($(UNAMEOS),Linux)
             PLATFORM_OS=LINUX
-	    RAYFLAGS=-lraylib -g3 -lGL -lm -lpthread -ldl -lrt
-        endif
-        ifeq ($(UNAMEOS),FreeBSD)
-            PLATFORM_OS=BSD
-        endif
-        ifeq ($(UNAMEOS),OpenBSD)
-            PLATFORM_OS=BSD
-        endif
-        ifeq ($(UNAMEOS),NetBSD)
-            PLATFORM_OS=BSD
-        endif
-        ifeq ($(UNAMEOS),DragonFly)
-            PLATFORM_OS=BSD
+	    	RAYFLAGS=-lraylib -g3 -lGL -lm -lpthread -ldl -lrt
         endif
         ifeq ($(UNAMEOS),Darwin)
             PLATFORM_OS=OSX
-	    RAYFLAGS=-lraylib -lraylib -framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo
+	    	RAYFLAGS=-lraylib -lraylib -framework OpenGL -framework Cocoa -framework IOKit -framework CoreAudio -framework CoreVideo
         endif
     endif
 all:
