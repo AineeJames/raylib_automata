@@ -1,6 +1,6 @@
+#include "gui_utils.h"
 #include "raylib.h"
 #define RAYGUI_IMPLEMENTATION
-#include "gui_utils.h"
 #include "raygui.h"
 #include "sim.h"
 #include "styles/style_dark.h"
@@ -17,9 +17,6 @@
  * Instead maybe writing to a texture may
  * be more efficient?
  * */
-
-#define WINDOW_WIDTH 800
-#define WINDOW_HEIGHT 600
 
 // const Color COPPER_PASTEL = {221, 140, 88, 255};
 cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];

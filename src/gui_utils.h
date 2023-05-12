@@ -1,10 +1,14 @@
 #ifndef GUI_UTILS_H
 #define GUI_UTILS_H
 
+#include "raygui.h"
 #include "raylib.h"
 #include "sim.h"
 #include <stdio.h>
 #include <strings.h>
+
+#define WINDOW_WIDTH 800
+#define WINDOW_HEIGHT 600
 
 char textInput[50] = {0};
 char textInputFileName[50] = {0};
