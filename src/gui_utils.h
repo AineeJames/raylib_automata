@@ -7,8 +7,11 @@
 #include <stdio.h>
 #include <strings.h>
 
+#define CELL_SIZE 20
 #define WINDOW_WIDTH 800
 #define WINDOW_HEIGHT 600
+#define GRID_WIDTH (WINDOW_WIDTH / CELL_SIZE)
+#define GRID_HEIGHT (WINDOW_HEIGHT / CELL_SIZE)
 
 char textInput[50] = {0};
 char textInputFileName[50] = {0};

@@ -1,9 +1,6 @@
 #ifndef SIM_H
 #define SIM_H
-
-#define CELL_SIZE 20
-#define GRID_WIDTH (WINDOW_WIDTH / CELL_SIZE)
-#define GRID_HEIGHT (WINDOW_HEIGHT / CELL_SIZE)
+#include "gui_utils.h"
 
 // Place contents here
 Color state_colors[] = {(Color){221, 140, 88, 255}, BLUE, RED, BLACK};
