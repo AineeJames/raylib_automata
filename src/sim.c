@@ -88,6 +88,7 @@ void updateGrid(void) {
 }
 
 void loadDefault(void) {
+  // example to load
   unsigned char default_grid[] = {
       3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0,
       3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0, 3, 0, 0, 0,
