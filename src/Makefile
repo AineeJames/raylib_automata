@@ -33,3 +33,6 @@ endif
 ifeq ($(PLATFORM_OS),LINUX)
 		$(CC) wireworld.c -o ../$(EXE) -lraylib -g3 -lGL -lm -lpthread -ldl -lrt
 endif
+
+run: all
+	../ww

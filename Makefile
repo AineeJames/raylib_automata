@@ -1,4 +1,4 @@
 default: all
 
 .DEFAULT:
-	cd src && make
+	cd src && make $@
