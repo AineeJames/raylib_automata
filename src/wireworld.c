@@ -31,7 +31,8 @@ int main() {
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
-  loadDefault();
+  //loadDefault();
+  clearCells();
   memcpy(&next_cell_grid, &cell_grid,
          GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
 

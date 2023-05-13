@@ -1,4 +1,5 @@
 #include "sim.h"
+#include <raylib.h>
 
 // const Color COPPER_PASTEL = {221, 140, 88, 255};
 Color state_colors[] = {(Color){221, 140, 88, 255}, BLUE, RED, BLACK};
@@ -17,6 +18,7 @@ void clearCells(void) {
       cell_grid[i][j] = EMPTY;
     }
   }
+  TraceLog(LOG_INFO,"Cleared cell grid that was size %dx%d and was %d bytes\n", GRID_WIDTH, GRID_HEIGHT, GRID_WIDTH * GRID_HEIGHT *sizeof(cell_state));
 }
 
 void setCell(cell_coord coordinate, cell_state new_state) {
