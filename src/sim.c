@@ -16,6 +16,7 @@ void clearCells(void) {
   for (int i = 0; i < GRID_WIDTH; i++) {
     for (int j = 0; j < GRID_HEIGHT; j++) {
       cell_grid[i][j] = EMPTY;
+      next_cell_grid[i][j] = EMPTY;
     }
   }
   TraceLog(LOG_INFO,"Cleared cell grid that was size %dx%d and was %d bytes\n", GRID_WIDTH, GRID_HEIGHT, GRID_WIDTH * GRID_HEIGHT *sizeof(cell_state));
