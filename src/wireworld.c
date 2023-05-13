@@ -121,8 +121,10 @@ int main() {
     mapGrid.x = floorf(mapGrid.x / CELL_SIZE) * 1.0f;
     mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
     drawCells();
+    if( newZoom != 0.1f){
     draw2Dgrid();
-    drawBorder();
+    }
+    drawBorder(newZoom);
     if (!inUIRegion) {
       drawSelectedCell(selected_cell, draw_state);
     }

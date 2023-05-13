@@ -162,13 +162,18 @@ void drawCells(void) {
   }
 }
 
-void drawBorder(void) {
+void drawBorder(float zoomlevel) {
   Vector2 topleft = {0,0};
   Vector2 bottomleft = {0,GRID_HEIGHT * CELL_SIZE};
   Vector2 topright = {GRID_WIDTH * CELL_SIZE, 0 };
   Vector2 bottomright = {GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE};
+  /*
   DrawLineEx(topleft, topright, 10, RAYWHITE);
   DrawLineEx(topleft, bottomleft, 10, RAYWHITE);
   DrawLineEx(bottomleft, bottomright, 10, RAYWHITE);
   DrawLineEx(bottomright, topright, 10, RAYWHITE);
+  */
+  Rectangle rect = {0,0, GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE};
+  //DrawRectangleRoundedLines(rect,0.2,5,1.0f,WHITE);
+  DrawRectangleLinesEx(rect,3.0f * (1/zoomlevel),WHITE);
 }
