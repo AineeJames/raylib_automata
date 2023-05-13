@@ -22,7 +22,9 @@
 
 /* TODO add icon for process
  * CLEAN up zoomable code
- *
+ * Need to make drawing 
+ * cells smarter fps goes down
+ * as more cells are drawn
  */
 
 int main() {
@@ -117,7 +119,7 @@ int main() {
     mapGrid = GetScreenToWorld2D(GetMousePosition(), cam);
     mapGrid.x = floorf(mapGrid.x / CELL_SIZE) * 1.0f;
     mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
-    drawCells();
+    //drawCells();
     draw2Dgrid();
     drawBorder();
     if (!inUIRegion) {
