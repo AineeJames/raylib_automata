@@ -2,6 +2,7 @@
 #define GUI_UTILS_H
 
 #include "raygui.h"
+#include "rlgl.h"
 #include "screen.h"
 #include "sim.h"
 #include <stdio.h>

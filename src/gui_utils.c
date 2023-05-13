@@ -123,19 +123,11 @@ void drawSpeed() {
 }
 
 void draw2Dgrid(void) {
-  Color Griddycolor = {50, 50, 50, 255};
-  for (int i = 0; i <= GRID_WIDTH * CELL_SIZE; i += CELL_SIZE) {
-    // Vertical Lines
-    Vector2 linestart = {i, 0};
-    Vector2 lineend = {i, GRID_HEIGHT * CELL_SIZE};
-    DrawLineEx(linestart, lineend, 1, Griddycolor);
-    for (int j = 0; j <= GRID_HEIGHT * CELL_SIZE; j += CELL_SIZE) {
-      // Horizontal lines
-      Vector2 linestart = {0, j};
-      Vector2 lineend = {GRID_WIDTH * CELL_SIZE, j};
-      DrawLineEx(linestart, lineend, 1, Griddycolor);
-    }
-  }
+    rlPushMatrix();
+    rlTranslatef((GRID_WIDTH * CELL_SIZE)/2.0, (GRID_HEIGHT * CELL_SIZE)/2.0, 0);
+    rlRotatef(90, 1, 0, 0);
+    DrawGrid(GRID_WIDTH, CELL_SIZE);
+    rlPopMatrix();
 }
 
 void drawSelectedCell(cell_coord selected_cell, cell_state state) {

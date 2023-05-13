@@ -120,12 +120,7 @@ int main() {
     mapGrid.x = floorf(mapGrid.x / CELL_SIZE) * 1.0f;
     mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
     drawCells();
-    //draw2Dgrid();
-    rlPushMatrix();
-    rlTranslatef((GRID_WIDTH * CELL_SIZE)/2.0, (GRID_HEIGHT * CELL_SIZE)/2.0, 0);
-    rlRotatef(90, 1, 0, 0);
-    DrawGrid(GRID_WIDTH, CELL_SIZE);
-    rlPopMatrix();
+    draw2Dgrid();
     drawBorder();
     if (!inUIRegion) {
       drawSelectedCell(selected_cell, draw_state);
