@@ -20,7 +20,7 @@
  * */
 
 /* TODO add icon for process
- *
+ * CLEAN up zoomable code
  *
  */
 
