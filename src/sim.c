@@ -50,13 +50,8 @@ cell_neighbors stateInMoore(int x, int y) {
       // Check if the neighboring cell is in bounds
       if (i >= 0 && i < GRID_WIDTH && j >= 0 && j < GRID_HEIGHT) {
         // Check if the neighboring cell has the target state
-        if (cell_grid[i][j] == HEAD) {
-          neighbors.heads++;
-        }
-
-        if (cell_grid[i][j] == TAIL) {
-          neighbors.tails++;
-        }
+        neighbors.heads += cell_grid[i][j] == HEAD;
+        neighbors.tails += cell_grid[i][j] == TAIL;
       }
     }
   }

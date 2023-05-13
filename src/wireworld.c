@@ -32,7 +32,7 @@ int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + UI_HEIGHT, "Wire World");
   GuiLoadStyleDark();
-  SetTargetFPS(60);
+  //SetTargetFPS(60);
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
