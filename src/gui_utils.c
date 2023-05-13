@@ -124,15 +124,15 @@ void drawSpeed() {
 
 void draw2Dgrid(void) {
   Color Griddycolor = {50, 50, 50, 255};
-  for (int i = 0; i <= WINDOW_WIDTH; i += CELL_SIZE) {
+  for (int i = 0; i <= GRID_WIDTH * CELL_SIZE; i += CELL_SIZE) {
     // Vertical Lines
     Vector2 linestart = {i, 0};
-    Vector2 lineend = {i, WINDOW_HEIGHT};
+    Vector2 lineend = {i, GRID_HEIGHT * CELL_SIZE};
     DrawLineEx(linestart, lineend, 1, Griddycolor);
-    for (int j = 0; j <= WINDOW_HEIGHT; j += CELL_SIZE) {
+    for (int j = 0; j <= GRID_HEIGHT * CELL_SIZE; j += CELL_SIZE) {
       // Horizontal lines
       Vector2 linestart = {0, j};
-      Vector2 lineend = {WINDOW_WIDTH, j};
+      Vector2 lineend = {GRID_WIDTH * CELL_SIZE, j};
       DrawLineEx(linestart, lineend, 1, Griddycolor);
     }
   }

@@ -119,7 +119,7 @@ int main() {
     mapGrid.x = floorf(mapGrid.x / CELL_SIZE) * 1.0f;
     mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
     drawCells();
-    draw2Dgrid();
+    //draw2Dgrid();
     if (!inUIRegion) {
       drawSelectedCell(selected_cell, draw_state);
     }
