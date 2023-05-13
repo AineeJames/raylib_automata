@@ -151,8 +151,10 @@ void drawSelectedCell(cell_coord selected_cell, cell_state state) {
 void drawCells(void) {
   for (int i = 0; i < GRID_WIDTH; i++) {
     for (int j = 0; j < GRID_HEIGHT; j++) {
+      if(cell_grid[i][j] != EMPTY){
       DrawRectangle(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE,
                     state_colors[cell_grid[i][j]]);
+      }
     }
   }
 }

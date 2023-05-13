@@ -68,6 +68,7 @@ int main() {
       setCell(selected_cell, draw_state);
 
     BeginDrawing();
+
     ClearBackground(BLACK);
     drawCells();
     draw2Dgrid();
