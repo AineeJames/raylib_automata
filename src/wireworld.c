@@ -27,6 +27,9 @@ int main() {
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
   loadDefault();
+  memcpy(&next_cell_grid, &cell_grid,
+         GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
+
   while (!WindowShouldClose()) {
     if (IsKeyPressed(KEY_ONE))
       draw_state = WIRE;
@@ -93,8 +96,6 @@ int main() {
     drawCursor(mousePos);
     EndDrawing();
 
-    memcpy(&next_cell_grid, &cell_grid,
-           GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
     frame_count++;
     if (frame_count % frames_per_tick == 0) {
       frame_count = 0;
