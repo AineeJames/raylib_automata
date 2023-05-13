@@ -119,7 +119,7 @@ int main() {
     mapGrid = GetScreenToWorld2D(GetMousePosition(), cam);
     mapGrid.x = floorf(mapGrid.x / CELL_SIZE) * 1.0f;
     mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
-    //drawCells();
+    drawCells();
     draw2Dgrid();
     drawBorder();
     if (!inUIRegion) {
