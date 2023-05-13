@@ -94,7 +94,7 @@ int main() {
       inUIRegion = false;
     }
 
-    if (IsMouseButtonDown(0)){
+    if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT)){
         cam.target = GetScreenToWorld2D(Vector2Add(cam.offset, delta),cam);
     }
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !showSaveWindow &&
@@ -105,9 +105,18 @@ int main() {
 
     ClearBackground(BLACK);
     BeginMode2D(cam);
+
+    Vector2 mapGrid = GetScreenToWorld2D(GetMousePosition(), cam);
+    mapGrid.x = floorf(mapGrid.x / CELL_SIZE) * 1.0f;
+    mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
+
     drawCells();
     draw2Dgrid();
+
     EndMode2D();
+
+    DrawText(TextFormat("%4.0f %4.0f", mapGrid.x, mapGrid.y),10, 10, 20, WHITE);
+
     DrawFPS(0, 0);
     int offset = 15;
     for (int state = WIRE; state < EMPTY + 1; state++) {
