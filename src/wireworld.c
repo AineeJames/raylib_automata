@@ -71,9 +71,16 @@ int main() {
     if ((stateMouseHover >= 0) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
       draw_state = stateMouseHover;
     }
+    
+    if (mousePos.y >= WINDOW_HEIGHT){
+        inUIRegion = true;
+    }
+    else{
+        inUIRegion = false;
+    }
 
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !showSaveWindow &&
-        !showLoadWindow)
+        !showLoadWindow && !inUIRegion)
       setCell(selected_cell, draw_state);
 
     BeginDrawing();
@@ -90,7 +97,9 @@ int main() {
     drawSpeed();
     DrawText("x: Clear Screen", offset, WINDOW_HEIGHT + 15, 20, RAYWHITE);
     drawPlayingOrPausedIndicator();
+    if(!inUIRegion){
     drawSelectedCell(selected_cell, draw_state);
+    }
     if (showSaveWindow) {
       savePopUp();
     }

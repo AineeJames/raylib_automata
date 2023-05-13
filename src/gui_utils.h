@@ -11,6 +11,7 @@ extern char textInput[50];
 extern char textInputFileName[50];
 extern bool showSaveWindow;
 extern bool showLoadWindow;
+extern bool inUIRegion;
 extern Rectangle colorsRects[4];
 
 void drawCursor(Vector2 pos);

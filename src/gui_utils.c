@@ -3,6 +3,7 @@ char textInput[50] = {0};
 char textInputFileName[50] = {0};
 bool showSaveWindow = false;
 bool showLoadWindow = false;
+bool inUIRegion = false;
 Rectangle colorsRects[4] = {0};
 
 void drawCursor(Vector2 pos) {
