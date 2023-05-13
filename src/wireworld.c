@@ -11,6 +11,7 @@
 #include <string.h>
 #include <time.h>
 
+#define UI_HEIGHT 50
 /*
  * If much larger cell grid is desired
  * may need to improve rectangle grid rendering
@@ -29,7 +30,7 @@
 
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
-  InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + 50, "Wire World");
+  InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + UI_HEIGHT, "Wire World");
   GuiLoadStyleDark();
   SetTargetFPS(60);
   HideCursor();
@@ -131,6 +132,7 @@ int main() {
     DrawText(TextFormat("%4.0f %4.0f", mapGrid.x, mapGrid.y),10, 10, 20, WHITE);
 
     DrawFPS(0, 0);
+    drawUIBar(UI_HEIGHT);
     int offset = 15;
     for (int state = WIRE; state < EMPTY + 1; state++) {
       offset +=

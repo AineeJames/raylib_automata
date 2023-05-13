@@ -85,6 +85,10 @@ void loadPopUp(void) {
   }
 }
 
+void drawUIBar(int UIBarHeight){
+    DrawRectangle(0,WINDOW_HEIGHT,WINDOW_WIDTH, 50, BLACK);
+}
+
 int drawHelpItem(cell_state state, cell_state selected, int x, int y) {
   char label[50];
   sprintf(label, "%d: %s", state + 1, state_names[state]);
