@@ -18,6 +18,11 @@
  * be more efficient?
  * */
 
+/* TODO add icon for process
+ *
+ *
+ */
+
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + 50, "Wire World");
@@ -103,6 +108,8 @@ int main() {
         updateGrid();
       }
     }
+    memcpy(&next_cell_grid, &cell_grid,
+           GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
   }
   CloseWindow();
   return 0;
