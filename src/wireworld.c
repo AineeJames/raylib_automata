@@ -120,6 +120,9 @@ int main() {
     mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
     drawCells();
     draw2Dgrid();
+    if (!inUIRegion) {
+      drawSelectedCell(selected_cell, draw_state);
+    }
 
     EndMode2D();
 
@@ -134,9 +137,6 @@ int main() {
     drawSpeed();
     DrawText("x: Clear Screen", offset, WINDOW_HEIGHT + 15, 20, RAYWHITE);
     drawPlayingOrPausedIndicator();
-    if (!inUIRegion) {
-      drawSelectedCell(selected_cell, draw_state);
-    }
     if (showSaveWindow) {
       savePopUp();
     }
