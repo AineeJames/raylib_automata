@@ -128,6 +128,12 @@ void draw2Dgrid(void) {
     rlRotatef(90, 1, 0, 0);
     DrawGrid(GRID_WIDTH, CELL_SIZE);
     rlPopMatrix();
+
+    rlPushMatrix();
+    rlTranslatef((GRID_WIDTH * CELL_SIZE)/2.0, (GRID_HEIGHT * CELL_SIZE), 0);
+    rlRotatef(90, 1, 0, 0);
+    DrawGrid(GRID_WIDTH, CELL_SIZE);
+    rlPopMatrix();
 }
 
 void drawSelectedCell(cell_coord selected_cell, cell_state state) {
