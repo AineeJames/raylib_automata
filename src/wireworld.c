@@ -28,7 +28,7 @@ int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + 50, "Wire World");
   GuiLoadStyleDark();
-  SetTargetFPS(60);
+  //SetTargetFPS(60);
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
@@ -67,8 +67,8 @@ int main() {
     float mouseDelta = GetMouseWheelMove();
 
     float newZoom = cam.zoom + mouseDelta * 0.1f;
-    if (newZoom <= 0)
-        newZoom = 0.01f;
+    if (newZoom <= 0.1)
+        newZoom = 0.1f;
 
     cam.zoom = newZoom;
     Vector2 mousePos = GetMousePosition();
@@ -120,6 +120,7 @@ int main() {
     mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
     drawCells();
     //draw2Dgrid();
+    drawBorder();
     if (!inUIRegion) {
       drawSelectedCell(selected_cell, draw_state);
     }

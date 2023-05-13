@@ -159,3 +159,14 @@ void drawCells(void) {
     }
   }
 }
+
+void drawBorder(void) {
+  Vector2 topleft = {0,0};
+  Vector2 bottomleft = {0,GRID_HEIGHT * CELL_SIZE};
+  Vector2 topright = {GRID_WIDTH * CELL_SIZE, 0 };
+  Vector2 bottomright = {GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE};
+  DrawLineEx(topleft, topright, 10, RAYWHITE);
+  DrawLineEx(topleft, bottomleft, 10, RAYWHITE);
+  DrawLineEx(bottomleft, bottomright, 10, RAYWHITE);
+  DrawLineEx(bottomright, topright, 10, RAYWHITE);
+}
