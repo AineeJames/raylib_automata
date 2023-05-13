@@ -69,8 +69,8 @@ int main() {
     float mouseDelta = GetMouseWheelMove();
 
     float newZoom = cam.zoom + mouseDelta * 0.1f;
-    if (newZoom <= 0.1)
-        newZoom = 0.1f;
+    if (newZoom <= 0.03)
+        newZoom = 0.03f;
 
     cam.zoom = newZoom;
     Vector2 mousePos = GetMousePosition();
@@ -121,7 +121,7 @@ int main() {
     mapGrid.x = floorf(mapGrid.x / CELL_SIZE) * 1.0f;
     mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
     drawCells();
-    if( newZoom != 0.1f){
+    if( newZoom > 0.3f){
     draw2Dgrid();
     }
     drawBorder(newZoom);
