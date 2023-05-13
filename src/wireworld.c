@@ -83,7 +83,16 @@ int main() {
         stateMouseHover = -1;
     }
 
+    BeginMode2D(cam);
+
     cell_coord selected_cell = getCellIdx(mousePos);
+    Vector2 mapGrid = GetScreenToWorld2D(GetMousePosition(), cam);
+    mapGrid.x = floorf(mapGrid.x / CELL_SIZE) * 1.0f;
+    mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
+    selected_cell.x = (int) mapGrid.x;
+    selected_cell.y = (int) mapGrid.y;
+    EndMode2D();
+
     if ((stateMouseHover >= 0) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
       draw_state = stateMouseHover;
     }
@@ -106,10 +115,9 @@ int main() {
     ClearBackground(BLACK);
     BeginMode2D(cam);
 
-    Vector2 mapGrid = GetScreenToWorld2D(GetMousePosition(), cam);
+    mapGrid = GetScreenToWorld2D(GetMousePosition(), cam);
     mapGrid.x = floorf(mapGrid.x / CELL_SIZE) * 1.0f;
     mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
-
     drawCells();
     draw2Dgrid();
 
