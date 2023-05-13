@@ -29,14 +29,12 @@ int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + 50, "Wire World");
   GuiLoadStyleDark();
-  SetTargetFPS(60);
+  //SetTargetFPS(60);
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
   // loadDefault();
   clearCells();
-  memcpy(&next_cell_grid, &cell_grid,
-         GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
   Camera2D cam = {0};
   cam.zoom = 1;
   cam.offset.x = GetScreenWidth() / 2.0f;
@@ -157,8 +155,6 @@ int main() {
         updateGrid();
       }
     }
-    memcpy(&next_cell_grid, &cell_grid,
-           GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
   }
   CloseWindow();
   return 0;

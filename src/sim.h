@@ -17,12 +17,16 @@ typedef struct {
 } cell_coord;
 
 typedef struct {
+  cell_coord coord;
+  cell_state state;
+} cell;
+
+typedef struct {
   int heads;
   int tails;
 } cell_neighbors;
 
 extern cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
-extern cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
 extern bool playing;
 extern int frames_per_tick;
 extern int frame_count;
