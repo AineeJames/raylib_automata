@@ -1,5 +1,6 @@
 #include "gui_utils.h"
 #include "raylib.h"
+#include "raymath.h"
 #define RAYGUI_IMPLEMENTATION
 #include "raygui.h"
 #include "sim.h"
@@ -31,10 +32,15 @@ int main() {
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
-  //loadDefault();
+  // loadDefault();
   clearCells();
   memcpy(&next_cell_grid, &cell_grid,
          GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
+  Camera2D cam = {0};
+  cam.zoom = 1;
+  cam.offset.x = GetScreenWidth() / 2.0f;
+  cam.offset.y = GetScreenHeight() / 2.0f;
+  Vector2 prevMousePos = GetMousePosition();
 
   while (!WindowShouldClose()) {
     if (IsKeyPressed(KEY_ONE))
@@ -57,7 +63,17 @@ int main() {
       showSaveWindow = true;
     else if (IsKeyPressed(KEY_L) && !showSaveWindow)
       showLoadWindow = true;
+
+    float mouseDelta = GetMouseWheelMove();
+
+    float newZoom = cam.zoom + mouseDelta * 0.1f;
+    if (newZoom <= 0)
+        newZoom = 0.01f;
+
+    cam.zoom = newZoom;
     Vector2 mousePos = GetMousePosition();
+    Vector2 delta = Vector2Subtract(prevMousePos, mousePos);
+    prevMousePos = mousePos;
 
     for (int i = 0; i < 4; i++) {
       if (CheckCollisionPointRec(mousePos, colorsRects[i])) {
@@ -71,14 +87,16 @@ int main() {
     if ((stateMouseHover >= 0) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
       draw_state = stateMouseHover;
     }
-    
-    if (mousePos.y >= WINDOW_HEIGHT){
-        inUIRegion = true;
-    }
-    else{
-        inUIRegion = false;
+
+    if (mousePos.y >= WINDOW_HEIGHT) {
+      inUIRegion = true;
+    } else {
+      inUIRegion = false;
     }
 
+    if (IsMouseButtonDown(0)){
+        cam.target = GetScreenToWorld2D(Vector2Add(cam.offset, delta),cam);
+    }
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !showSaveWindow &&
         !showLoadWindow && !inUIRegion)
       setCell(selected_cell, draw_state);
@@ -86,8 +104,10 @@ int main() {
     BeginDrawing();
 
     ClearBackground(BLACK);
+    BeginMode2D(cam);
     drawCells();
     draw2Dgrid();
+    EndMode2D();
     DrawFPS(0, 0);
     int offset = 15;
     for (int state = WIRE; state < EMPTY + 1; state++) {
@@ -97,8 +117,8 @@ int main() {
     drawSpeed();
     DrawText("x: Clear Screen", offset, WINDOW_HEIGHT + 15, 20, RAYWHITE);
     drawPlayingOrPausedIndicator();
-    if(!inUIRegion){
-    drawSelectedCell(selected_cell, draw_state);
+    if (!inUIRegion) {
+      drawSelectedCell(selected_cell, draw_state);
     }
     if (showSaveWindow) {
       savePopUp();
