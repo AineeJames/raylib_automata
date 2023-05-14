@@ -9,8 +9,8 @@ cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
 
 bool playing = false;
-int frames_per_tick = 4;
-int frame_count = 0;
+short frames_per_tick = 4;
+short frame_count = 0;
 
 void clearCells(void) {
   for (int i = 0; i < GRID_WIDTH; i++) {

@@ -4,6 +4,7 @@
 #include "screen.h"
 #include <stdbool.h>
 #include <string.h>
+#include <stdint.h>
 // Place contents here
 extern Color state_colors[];
 
@@ -24,14 +25,14 @@ typedef struct {
 } cell;
 
 typedef struct {
-  int heads;
-  int tails;
+  uint8_t heads;
+  uint8_t tails;
 } cell_neighbors;
 
 extern cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 extern bool playing;
-extern int frames_per_tick;
-extern int frame_count;
+extern short frames_per_tick;
+extern short frame_count;
 
 void updateGrid(void);
 void clearCells(void);
