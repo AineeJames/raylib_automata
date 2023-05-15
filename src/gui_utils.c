@@ -155,7 +155,7 @@ void drawCells(cell_coord *changedCoords, size_t num_changed_coords) {
 
   for (int i = 0; i < num_changed_coords; i++){
 	cell_coord cur = changedCoords[i];
-	printf("drawing pixel at %d,%d\n",cur.x,cur.y);
+	//printf("drawing pixel at %d,%d\n",cur.x,cur.y);
 	DrawPixel(cur.x,cur.y,state_colors[cell_grid[cur.x][cur.y]]);
   }
   /*

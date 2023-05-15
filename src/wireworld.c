@@ -38,6 +38,14 @@ int main() {
   cell_coord drawnCell = {0};
   size_t num_changed_coords = 0;
   cell_coord *changedCoords = malloc(((GRID_WIDTH * GRID_HEIGHT) + 1)*sizeof(cell_coord));
+  Color grid_pixels[GRID_WIDTH * GRID_HEIGHT] = {0};
+
+  for(int i = 0; i < GRID_HEIGHT; i++){
+	for(int j = 0; j < GRID_WIDTH; j++){
+		size_t pixel_index = i * GRID_WIDTH + j;
+	        grid_pixels[pixel_index] = BLACK;	
+	}
+  }
 
 
   // Texture to draw cells on, each cell will 
@@ -166,13 +174,24 @@ int main() {
 
     ClearBackground(BLACK);
 
-    BeginTextureMode(gametexture);
-    drawCells(changedCoords,num_changed_coords);
-    EndTextureMode();
+    //BeginTextureMode(gametexture);
+
+    //need to have a pixel array to update the texture with
+    //instead of cpu drawing functions
+
+    //drawCells(changedCoords,num_changed_coords);
+
+  for (int i = 0; i < num_changed_coords; i++){
+	cell_coord cur = changedCoords[i];
+	//printf("drawing pixel at %d,%d\n",cur.x,cur.y);
+        //grid_pixels[cur.y * GRID_WIDTH + cur.x] = state_colors[cell_grid[cur.x][cur.y]];
+	//DrawPixel(cur.x,cur.y,state_colors[cell_grid[cur.x][cur.y]]);
+  }
+
+    UpdateTexture(gametexture.texture,&grid_pixels);
+    //EndTextureMode();
+    
     //clear changedCoords
-    // TODO don't memset, for loop and set manually 
-    // will be much faster
-    memset(changedCoords, 0, (GRID_WIDTH * GRID_HEIGHT + 1) * sizeof(cell_coord));
     num_changed_coords = 0;
 
     BeginMode2D(cam);
