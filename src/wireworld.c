@@ -12,14 +12,6 @@
 #include <time.h>
 
 #define UI_HEIGHT 50
-/*
- * If much larger cell grid is desired
- * may need to improve rectangle grid rendering
- * for example with cell_size 5 we have 160x78
- * which is 12480 calls to drawRectangle
- * Instead maybe writing to a texture may
- * be more efficient?
- * */
 
 /* TODO add icon for process
  * CLEAN up zoomable code
