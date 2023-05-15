@@ -19,7 +19,9 @@ void clearCells(void) {
       next_cell_grid[i][j] = EMPTY;
     }
   }
-  TraceLog(LOG_INFO,"Cleared cell grid that was size %dx%d and was %d bytes\n", GRID_WIDTH, GRID_HEIGHT, GRID_WIDTH * GRID_HEIGHT *sizeof(cell_state));
+  TraceLog(LOG_INFO, "Cleared cell grid that was size %dx%d and was %d bytes\n",
+           GRID_WIDTH, GRID_HEIGHT,
+           GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
 }
 
 void setCell(cell_coord coordinate, cell_state new_state) {
@@ -79,7 +81,9 @@ void updateGrid(void) {
   for (int i = 0; i < GRID_WIDTH; i++) {
     for (int j = 0; j < GRID_HEIGHT; j++) {
 
-      cell_neighbors neighbors = stateInMoore(i, j);
+      cell_neighbors neighbors = {0, 0};
+      if (cell_grid[i][j] != EMPTY)
+        neighbors = stateInMoore(i, j);
       if (cell_grid[i][j] == TAIL) {
         cell new_cell;
         new_cell.coord.x = i;
@@ -104,13 +108,13 @@ void updateGrid(void) {
       }
     }
   }
-  for(int i = 0; i < cellidx; i++){
-     cell cur = changed_cells[i];
-     cell_grid[cur.coord.x][cur.coord.y] = cur.state;
+  for (int i = 0; i < cellidx; i++) {
+    cell cur = changed_cells[i];
+    cell_grid[cur.coord.x][cur.coord.y] = cur.state;
   }
   memset(&changed_cells, 0, GRID_WIDTH * GRID_HEIGHT * sizeof(cell));
 
-  //memcpy(&cell_grid, &next_cell_grid,
+  // memcpy(&cell_grid, &next_cell_grid,
   //       GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
 }
 
