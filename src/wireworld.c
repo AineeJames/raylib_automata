@@ -15,23 +15,14 @@
 
 /* TODO add icon for process
  * CLEAN up zoomable code
- * Need to make drawing 
- * cells smarter fps goes down
- * as more cells are drawn
- * to do this need to initiaize 
- * a texture GRID_WIDTH * GRID_HEIGHT
- * pixels, and draw the pixels when
- * ever we would have drawn on screen
- * that way we just show the texture each
- * frame and only draw on it when necessary
- * using DrawPixel(int posX, int posY, Color color); 
+ * CLEAN up texture cell drawing code 
  */
 
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + UI_HEIGHT, "Wire World");
   GuiLoadStyleDark();
-  SetTargetFPS(144);
+  //SetTargetFPS(144);
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
