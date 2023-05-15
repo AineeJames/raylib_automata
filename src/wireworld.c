@@ -24,6 +24,7 @@
  * ever we would have drawn on screen
  * that way we just show the texture each
  * frame and only draw on it when necessary
+ * using DrawPixel(int posX, int posY, Color color); 
  */
 
 int main() {
