@@ -155,18 +155,8 @@ void drawCells(cell_coord *changedCoords, size_t num_changed_coords) {
 
   for (int i = 0; i < num_changed_coords; i++){
 	cell_coord cur = changedCoords[i];
-	//printf("drawing pixel at %d,%d\n",cur.x,cur.y);
 	DrawPixel(cur.x,cur.y,state_colors[cell_grid[cur.x][cur.y]]);
   }
-  /*
-  for (int i = 0; i < GRID_WIDTH; i++) {
-    for (int j = 0; j < GRID_HEIGHT; j++) {
-      if(cell_grid[i][j] != EMPTY){
-      DrawRectangle(i * CELL_SIZE, j * CELL_SIZE, CELL_SIZE, CELL_SIZE,
-                    state_colors[cell_grid[i][j]]);
-      }
-    }
-  }*/
 }
 
 void drawBorder(float zoomlevel) {

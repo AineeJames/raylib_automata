@@ -38,7 +38,7 @@ int main() {
   cell_coord drawnCell = {0};
   size_t num_changed_coords = 0;
   cell_coord *changedCoords = malloc(((GRID_WIDTH * GRID_HEIGHT) + 1)*sizeof(cell_coord));
-  Color grid_pixels[GRID_WIDTH * GRID_HEIGHT] = {0};
+  Color *grid_pixels = malloc((GRID_WIDTH * GRID_HEIGHT) * sizeof(Color));
 
   for(int i = 0; i < GRID_HEIGHT; i++){
 	for(int j = 0; j < GRID_WIDTH; j++){
@@ -164,7 +164,6 @@ int main() {
       if(drawnCell.x != -1 && drawnCell.y != -1){
 	      changedCoords[num_changed_coords] = drawnCell;
 	      num_changed_coords += 1;
-	      printf("drew on cell %d,%d\n",drawnCell.x,drawnCell.y);
       }
     }
 
@@ -184,11 +183,11 @@ int main() {
   for (int i = 0; i < num_changed_coords; i++){
 	cell_coord cur = changedCoords[i];
 	//printf("drawing pixel at %d,%d\n",cur.x,cur.y);
-        //grid_pixels[cur.y * GRID_WIDTH + cur.x] = state_colors[cell_grid[cur.x][cur.y]];
+        grid_pixels[cur.y * GRID_WIDTH + cur.x] = state_colors[cell_grid[cur.x][cur.y]];
 	//DrawPixel(cur.x,cur.y,state_colors[cell_grid[cur.x][cur.y]]);
   }
 
-    UpdateTexture(gametexture.texture,&grid_pixels);
+    UpdateTexture(gametexture.texture,grid_pixels);
     //EndTextureMode();
     
     //clear changedCoords
@@ -197,11 +196,7 @@ int main() {
     BeginMode2D(cam);
     
     //Hopefully drawing texture for cells
-    //DrawTextureV(gametexture.texture, (Vector2) {0,0} ,WHITE);
-    //DrawTextureRec(gametexture.texture, (Rectangle) {0,0,(float)gametexture.texture.width, (float)-gametexture.texture.height},(Vector2){0,0}, WHITE);
-    
-    //DrawTextureEx(gametexture.texture,(Vector2){0,0},0.0f,CELL_SIZE,WHITE);
-    DrawTexturePro(gametexture.texture, (Rectangle) {0,0,(float)gametexture.texture.width, (float)-gametexture.texture.height},(Rectangle) {0,0,(float)gametexture.texture.width*CELL_SIZE, (float)gametexture.texture.height * CELL_SIZE}, (Vector2){0,0}, 0.0f, WHITE);
+    DrawTexturePro(gametexture.texture, (Rectangle) {0,0,(float)gametexture.texture.width, (float)gametexture.texture.height},(Rectangle) {0,0,(float)gametexture.texture.width*CELL_SIZE, (float)gametexture.texture.height * CELL_SIZE}, (Vector2){0,0}, 0.0f, WHITE);
 
 
     // only draw grid when zoomed in 
