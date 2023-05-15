@@ -108,7 +108,6 @@ void updateGrid(cell_coord *changedCoords, size_t* num_changed_coords) {
      changedCoords[*num_changed_coords + i] = cur.coord;
   }
   *num_changed_coords += cellidx;
-  memset(&changed_cells, 0, GRID_WIDTH * GRID_HEIGHT * sizeof(cell));
 }
 
 void loadDefault(void) {
