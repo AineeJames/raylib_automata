@@ -74,9 +74,8 @@ void updateGrid(cell_coord *changedCoords, size_t* num_changed_coords) {
    * cells are electron heads, otherwise remains conductor.*/
   static cell changed_cells[GRID_HEIGHT * GRID_WIDTH];
   size_t cellidx = 0;
-  for (int i = 0; i < GRID_WIDTH; i++) {
-    for (int j = 0; j < GRID_HEIGHT; j++) {
-
+  for (size_t i = 0; i < GRID_WIDTH; i++) {
+    for (size_t j = 0; j < GRID_HEIGHT; j++) {
       cell_neighbors neighbors = stateInMoore(i, j);
       if (cell_grid[i][j] == TAIL) {
         cell new_cell;
@@ -102,7 +101,7 @@ void updateGrid(cell_coord *changedCoords, size_t* num_changed_coords) {
       }
     }
   }
-  for(int i = 0; i < cellidx; i++){
+  for(size_t i = 0; i < cellidx; i++){
      cell cur = changed_cells[i];
      cell_grid[cur.coord.x][cur.coord.y] = cur.state;
      changedCoords[*num_changed_coords + i] = cur.coord;
