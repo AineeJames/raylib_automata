@@ -31,7 +31,7 @@ int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + UI_HEIGHT, "Wire World");
   GuiLoadStyleDark();
-  //SetTargetFPS(60);
+  SetTargetFPS(144);
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
@@ -167,10 +167,13 @@ int main() {
     // draw cell on left click
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !showSaveWindow &&
         !showLoadWindow && !inUIRegion){
+      bool cell_changed = draw_state != cell_grid[selected_cell.x][selected_cell.y];
+      if (cell_changed){
       drawnCell = setCell(selected_cell, draw_state);
       if(drawnCell.x != -1 && drawnCell.y != -1){
 	      changedCoords[num_changed_coords] = drawnCell;
 	      num_changed_coords += 1;
+      }
       }
     }
 
