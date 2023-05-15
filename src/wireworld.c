@@ -105,8 +105,10 @@ int main() {
     // and translate that to a grid coord
     cell_coord selected_cell = getCellIdx(mousePos);
     Vector2 mapGrid = GetScreenToWorld2D(GetMousePosition(), cam);
-    selected_cell.x = (int) floorf(mapGrid.x / CELL_SIZE) * 1.0f;
-    selected_cell.y = (int) floorf(mapGrid.y / CELL_SIZE) * 1.0f;
+    mapGrid.x = floorf(mapGrid.x / CELL_SIZE) * 1.0f;
+    mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
+    selected_cell.x = (int) mapGrid.x;
+    selected_cell.y = (int) mapGrid.y;
     EndMode2D();
 
 
