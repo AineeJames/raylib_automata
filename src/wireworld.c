@@ -87,8 +87,7 @@ int main() {
 	        grid_pixels[pixel_index] = BLACK;	
 	}
       }
-
-
+      UpdateTexture(gametexture.texture,grid_pixels);
     }
     else if (IsKeyPressed(KEY_S) && !showLoadWindow)
       showSaveWindow = true;
@@ -186,8 +185,9 @@ int main() {
 	cell_coord cur = changedCoords[i];
         grid_pixels[cur.y * GRID_WIDTH + cur.x] = state_colors[cell_grid[cur.x][cur.y]];
     }
-
-    UpdateTexture(gametexture.texture,grid_pixels);
+    if(num_changed_coords){
+	    UpdateTexture(gametexture.texture,grid_pixels);
+    }
     //EndTextureMode();
     
     //clear changedCoords
@@ -243,6 +243,7 @@ int main() {
 	        grid_pixels[pixel_index] = state_colors[cell_grid[j][i]];	
 	}
       }
+      UpdateTexture(gametexture.texture,grid_pixels);
     }
 
     drawCursor(mousePos);
