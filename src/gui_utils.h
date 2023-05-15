@@ -25,6 +25,6 @@ void draw2Dgrid(void);
 void drawSelectedCell(cell_coord selected_cell, cell_state state);
 void drawCells();
 void drawBorder(float zoomlevel);
-void drawUIBar(int UIBarHeight);
+void drawUIBackground(int UIBarHeight);
 
 #endif // !GUI_UTILS_H

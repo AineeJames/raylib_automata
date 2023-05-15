@@ -26,6 +26,12 @@
  * Need to make drawing 
  * cells smarter fps goes down
  * as more cells are drawn
+ * to do this need to initiaize 
+ * a texture GRID_WIDTH * GRID_HEIGHT
+ * pixels, and draw the pixels when
+ * ever we would have drawn on screen
+ * that way we just show the texture each
+ * frame and only draw on it when necessary
  */
 
 int main() {
@@ -66,17 +72,22 @@ int main() {
     else if (IsKeyPressed(KEY_L) && !showSaveWindow)
       showLoadWindow = true;
 
+
     float mouseDelta = GetMouseWheelMove();
 
     float newZoom = cam.zoom + mouseDelta * 0.1f;
+    // Capping the zoom so you don't zoom
+    // out oo much and get lost
     if (newZoom <= 0.03)
         newZoom = 0.03f;
 
     cam.zoom = newZoom;
+
     Vector2 mousePos = GetMousePosition();
     Vector2 delta = Vector2Subtract(prevMousePos, mousePos);
     prevMousePos = mousePos;
 
+    // check if mouse is hovering over buttons
     for (int i = 0; i < 4; i++) {
       if (CheckCollisionPointRec(mousePos, colorsRects[i])) {
         stateMouseHover = i;
@@ -85,29 +96,38 @@ int main() {
         stateMouseHover = -1;
     }
 
+
+    // allows drawing to take place in 
+    // world space
     BeginMode2D(cam);
 
+    // get selected cell where mouse is 
+    // and translate that to a grid coord
     cell_coord selected_cell = getCellIdx(mousePos);
     Vector2 mapGrid = GetScreenToWorld2D(GetMousePosition(), cam);
-    mapGrid.x = floorf(mapGrid.x / CELL_SIZE) * 1.0f;
-    mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
-    selected_cell.x = (int) mapGrid.x;
-    selected_cell.y = (int) mapGrid.y;
+    selected_cell.x = (int) floorf(mapGrid.x / CELL_SIZE) * 1.0f;
+    selected_cell.y = (int) floorf(mapGrid.y / CELL_SIZE) * 1.0f;
     EndMode2D();
+
 
     if ((stateMouseHover >= 0) && IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
       draw_state = stateMouseHover;
     }
 
+    // Check if cursor is on screen or
+    // in bottom ui area
     if (mousePos.y >= WINDOW_HEIGHT) {
       inUIRegion = true;
     } else {
       inUIRegion = false;
     }
 
+    // pan camera on right click
     if (IsMouseButtonDown(MOUSE_BUTTON_RIGHT)){
         cam.target = GetScreenToWorld2D(Vector2Add(cam.offset, delta),cam);
     }
+    
+    // draw cell on left click
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !showSaveWindow &&
         !showLoadWindow && !inUIRegion)
       setCell(selected_cell, draw_state);
@@ -117,24 +137,30 @@ int main() {
     ClearBackground(BLACK);
     BeginMode2D(cam);
 
-    mapGrid = GetScreenToWorld2D(GetMousePosition(), cam);
-    mapGrid.x = floorf(mapGrid.x / CELL_SIZE) * 1.0f;
-    mapGrid.y = floorf(mapGrid.y / CELL_SIZE) * 1.0f;
     drawCells();
+
+    // only draw grid when zoomed in 
+    // When grid is too small it destroys 
+    // eyes
     if( newZoom > 0.3f){
     draw2Dgrid();
     }
+
     drawBorder(newZoom);
+
     if (!inUIRegion) {
       drawSelectedCell(selected_cell, draw_state);
     }
 
     EndMode2D();
 
+    // Draw the currently hovered over grid coord
     DrawText(TextFormat("%4.0f %4.0f", mapGrid.x, mapGrid.y),10, 10, 20, WHITE);
 
     DrawFPS(0, 0);
-    drawUIBar(UI_HEIGHT);
+
+    drawUIBackground(UI_HEIGHT);
+
     int offset = 15;
     for (int state = WIRE; state < EMPTY + 1; state++) {
       offset +=
@@ -154,6 +180,10 @@ int main() {
     drawCursor(mousePos);
     EndDrawing();
 
+    // only update grid 
+    // after certain amount of 
+    // frames, to give control 
+    // over sim speed
     frame_count++;
     if (frame_count % frames_per_tick == 0) {
       frame_count = 0;

@@ -1,4 +1,4 @@
-#include "gui_utils.h"
+#include "gui_utils.h"gui
 char textInput[50] = {0};
 char textInputFileName[50] = {0};
 bool showSaveWindow = false;
@@ -85,7 +85,7 @@ void loadPopUp(void) {
   }
 }
 
-void drawUIBar(int UIBarHeight){
+void drawUIBackground(int UIBarHeight){
     DrawRectangle(0,WINDOW_HEIGHT,WINDOW_WIDTH, 50, BLACK);
 }
 
