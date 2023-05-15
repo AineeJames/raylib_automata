@@ -9,8 +9,8 @@ cell_state cell_grid[GRID_WIDTH][GRID_HEIGHT];
 cell_state next_cell_grid[GRID_WIDTH][GRID_HEIGHT];
 
 bool playing = false;
-int frames_per_tick = 4;
-int frame_count = 0;
+short frames_per_tick = 4;
+short frame_count = 0;
 
 void clearCells(void) {
   for (int i = 0; i < GRID_WIDTH; i++) {
@@ -24,11 +24,14 @@ void clearCells(void) {
            GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
 }
 
-void setCell(cell_coord coordinate, cell_state new_state) {
+cell_coord setCell(cell_coord coordinate, cell_state new_state) {
   if (coordinate.x >= 0 && coordinate.y >= 0 && coordinate.x < GRID_WIDTH &&
       coordinate.y < GRID_HEIGHT) {
     cell_grid[coordinate.x][coordinate.y] = new_state;
+    return coordinate;
   }
+  cell_coord err = {-1, -1};
+  return err;
 }
 
 cell_coord getCellIdx(Vector2 mouse_pos) {
@@ -52,13 +55,8 @@ cell_neighbors stateInMoore(int x, int y) {
       // Check if the neighboring cell is in bounds
       if (i >= 0 && i < GRID_WIDTH && j >= 0 && j < GRID_HEIGHT) {
         // Check if the neighboring cell has the target state
-        if (cell_grid[i][j] == HEAD) {
-          neighbors.heads++;
-        }
-
-        if (cell_grid[i][j] == TAIL) {
-          neighbors.tails++;
-        }
+        neighbors.heads += cell_grid[i][j] == HEAD;
+        neighbors.tails += cell_grid[i][j] == TAIL;
       }
     }
   }
@@ -66,7 +64,7 @@ cell_neighbors stateInMoore(int x, int y) {
   return neighbors;
 }
 
-void updateGrid(void) {
+void updateGrid(cell_coord *changedCoords, size_t *num_changed_coords) {
   /*
    * As in all cellular automata, time proceeds in discrete steps called
    * generations (sometimes gens or ticks). Cells behave as follows:
@@ -111,11 +109,9 @@ void updateGrid(void) {
   for (int i = 0; i < cellidx; i++) {
     cell cur = changed_cells[i];
     cell_grid[cur.coord.x][cur.coord.y] = cur.state;
+    changedCoords[*num_changed_coords + i] = cur.coord;
   }
-  memset(&changed_cells, 0, GRID_WIDTH * GRID_HEIGHT * sizeof(cell));
-
-  // memcpy(&cell_grid, &next_cell_grid,
-  //       GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
+  *num_changed_coords += cellidx;
 }
 
 void loadDefault(void) {

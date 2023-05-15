@@ -23,7 +23,8 @@ void drawPlayingOrPausedIndicator();
 void drawSpeed();
 void draw2Dgrid(void);
 void drawSelectedCell(cell_coord selected_cell, cell_state state);
-void drawCells();
-void drawBorder();
+void drawCells(cell_coord *changedCoords, size_t num_changed_coords);
+void drawBorder(float zoomlevel);
+void drawUIBackground(int UIBarHeight);
 
 #endif // !GUI_UTILS_H
