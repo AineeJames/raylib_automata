@@ -42,6 +42,15 @@ int main() {
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
+
+  // Texture to draw cells on, each cell will 
+  // be a single pixel that is then scaled up
+  // and shifted to fit onto the existing grid
+  RenderTexture2D gametexture = LoadRenderTexture(GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE);
+  BeginTextureMode(gametexture);
+  ClearBackground(BLACK);
+  EndTextureMode();
+
   // loadDefault();
   clearCells();
   Camera2D cam = {0};
