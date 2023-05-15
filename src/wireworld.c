@@ -79,15 +79,23 @@ int main() {
       frames_per_tick--;
     else if (IsKeyPressed(KEY_DOWN))
       frames_per_tick++;
-    else if (IsKeyPressed(KEY_X) && !showSaveWindow)
+    else if (IsKeyPressed(KEY_X) && !showSaveWindow){
       clearCells();
+      for(int i = 0; i < GRID_HEIGHT; i++){
+	for(int j = 0; j < GRID_WIDTH; j++){
+		size_t pixel_index = i * GRID_WIDTH + j;
+	        grid_pixels[pixel_index] = BLACK;	
+	}
+      }
+
+
+    }
     else if (IsKeyPressed(KEY_S) && !showLoadWindow)
       showSaveWindow = true;
     else if (IsKeyPressed(KEY_L) && !showSaveWindow)
       showLoadWindow = true;
     else if (IsKeyPressed(KEY_P)){
 	    Image image = LoadImageFromTexture(gametexture.texture);
-	    ImageFlipVertical(&image);
 	    ExportImage(image, "epic_texture.png");
 	    UnloadImage(image); 
     }
@@ -173,19 +181,11 @@ int main() {
 
     ClearBackground(BLACK);
 
-    //BeginTextureMode(gametexture);
-
-    //need to have a pixel array to update the texture with
-    //instead of cpu drawing functions
-
-    //drawCells(changedCoords,num_changed_coords);
-
-  for (int i = 0; i < num_changed_coords; i++){
+    // change the changed pixels data
+    for (int i = 0; i < num_changed_coords; i++){
 	cell_coord cur = changedCoords[i];
-	//printf("drawing pixel at %d,%d\n",cur.x,cur.y);
         grid_pixels[cur.y * GRID_WIDTH + cur.x] = state_colors[cell_grid[cur.x][cur.y]];
-	//DrawPixel(cur.x,cur.y,state_colors[cell_grid[cur.x][cur.y]]);
-  }
+    }
 
     UpdateTexture(gametexture.texture,grid_pixels);
     //EndTextureMode();
@@ -195,7 +195,7 @@ int main() {
 
     BeginMode2D(cam);
     
-    //Hopefully drawing texture for cells
+    //Drawing texture for cells
     DrawTexturePro(gametexture.texture, (Rectangle) {0,0,(float)gametexture.texture.width, (float)gametexture.texture.height},(Rectangle) {0,0,(float)gametexture.texture.width*CELL_SIZE, (float)gametexture.texture.height * CELL_SIZE}, (Vector2){0,0}, 0.0f, WHITE);
 
 
@@ -226,6 +226,7 @@ int main() {
       offset +=
           drawHelpItem(state, draw_state, offset, WINDOW_HEIGHT + 15) + 20;
     }
+
     drawSpeed();
     DrawText("x: Clear Screen", offset, WINDOW_HEIGHT + 15, 20, RAYWHITE);
     drawPlayingOrPausedIndicator();
@@ -235,6 +236,13 @@ int main() {
 
     if (showLoadWindow) {
       loadPopUp();
+      
+      for(int i = 0; i < GRID_HEIGHT; i++){
+	for(int j = 0; j < GRID_WIDTH; j++){
+		size_t pixel_index = i * GRID_WIDTH + j;
+	        grid_pixels[pixel_index] = state_colors[cell_grid[j][i]];	
+	}
+      }
     }
 
     drawCursor(mousePos);
