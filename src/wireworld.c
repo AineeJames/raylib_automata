@@ -35,11 +35,15 @@ int main() {
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
+  cell_coord drawnCell = {0};
+  size_t num_changed_coords = 0;
+  cell_coord *changedCoords = malloc(((GRID_WIDTH * GRID_HEIGHT) + 1)*sizeof(cell_coord));
+
 
   // Texture to draw cells on, each cell will 
   // be a single pixel that is then scaled up
   // and shifted to fit onto the existing grid
-  RenderTexture2D gametexture = LoadRenderTexture(GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE);
+  RenderTexture2D gametexture = LoadRenderTexture(GRID_WIDTH, GRID_HEIGHT);
   BeginTextureMode(gametexture);
   ClearBackground(BLACK);
   EndTextureMode();
@@ -73,6 +77,12 @@ int main() {
       showSaveWindow = true;
     else if (IsKeyPressed(KEY_L) && !showSaveWindow)
       showLoadWindow = true;
+    else if (IsKeyPressed(KEY_P)){
+	    Image image = LoadImageFromTexture(gametexture.texture);
+	    ImageFlipVertical(&image);
+	    ExportImage(image, "epic_texture.png");
+	    UnloadImage(image); 
+    }
 
 
     float mouseDelta = GetMouseWheelMove();
@@ -131,17 +141,49 @@ int main() {
         cam.target = GetScreenToWorld2D(Vector2Add(cam.offset, delta),cam);
     }
     
+    frame_count++;
+    if (frame_count % frames_per_tick == 0) {
+      frame_count = 0;
+      if (playing) {
+        updateGrid(changedCoords, &num_changed_coords);
+      }
+    }
+
     // draw cell on left click
     if (IsMouseButtonDown(MOUSE_BUTTON_LEFT) && !showSaveWindow &&
-        !showLoadWindow && !inUIRegion)
-      setCell(selected_cell, draw_state);
+        !showLoadWindow && !inUIRegion){
+      drawnCell = setCell(selected_cell, draw_state);
+      if(drawnCell.x != -1 && drawnCell.y != -1){
+	      changedCoords[num_changed_coords] = drawnCell;
+	      num_changed_coords += 1;
+	      printf("drew on cell %d,%d\n",drawnCell.x,drawnCell.y);
+      }
+    }
+
+   
 
     BeginDrawing();
 
     ClearBackground(BLACK);
-    BeginMode2D(cam);
 
-    drawCells();
+    BeginTextureMode(gametexture);
+    drawCells(changedCoords,num_changed_coords);
+    EndTextureMode();
+    //clear changedCoords
+    // TODO don't memset, for loop and set manually 
+    // will be much faster
+    memset(changedCoords, 0, (GRID_WIDTH * GRID_HEIGHT + 1) * sizeof(cell_coord));
+    num_changed_coords = 0;
+
+    BeginMode2D(cam);
+    
+    //Hopefully drawing texture for cells
+    //DrawTextureV(gametexture.texture, (Vector2) {0,0} ,WHITE);
+    //DrawTextureRec(gametexture.texture, (Rectangle) {0,0,(float)gametexture.texture.width, (float)-gametexture.texture.height},(Vector2){0,0}, WHITE);
+    
+    //DrawTextureEx(gametexture.texture,(Vector2){0,0},0.0f,CELL_SIZE,WHITE);
+    DrawTexturePro(gametexture.texture, (Rectangle) {0,0,(float)gametexture.texture.width, (float)-gametexture.texture.height},(Rectangle) {0,0,(float)gametexture.texture.width*CELL_SIZE, (float)gametexture.texture.height * CELL_SIZE}, (Vector2){0,0}, 0.0f, WHITE);
+
 
     // only draw grid when zoomed in 
     // When grid is too small it destroys 
@@ -188,13 +230,7 @@ int main() {
     // after certain amount of 
     // frames, to give control 
     // over sim speed
-    frame_count++;
-    if (frame_count % frames_per_tick == 0) {
-      frame_count = 0;
-      if (playing) {
-        updateGrid();
-      }
-    }
+
   }
   CloseWindow();
   return 0;
