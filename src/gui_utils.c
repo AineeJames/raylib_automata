@@ -85,8 +85,8 @@ void loadPopUp(void) {
   }
 }
 
-void drawUIBackground(int UIBarHeight){
-    DrawRectangle(0,WINDOW_HEIGHT,WINDOW_WIDTH, 50, BLACK);
+void drawUIBackground(int UIBarHeight) {
+  DrawRectangle(0, WINDOW_HEIGHT, WINDOW_WIDTH, 50, BLACK);
 }
 
 int drawHelpItem(cell_state state, cell_state selected, int x, int y) {
@@ -127,17 +127,18 @@ void drawSpeed() {
 }
 
 void draw2Dgrid(void) {
-    rlPushMatrix();
-    rlTranslatef((GRID_WIDTH * CELL_SIZE)/2.0, (GRID_HEIGHT * CELL_SIZE)/2.0, 0);
-    rlRotatef(90, 1, 0, 0);
-    DrawGrid(GRID_WIDTH, CELL_SIZE);
-    rlPopMatrix();
+  rlPushMatrix();
+  rlTranslatef((GRID_WIDTH * CELL_SIZE) / 2.0, (GRID_HEIGHT * CELL_SIZE) / 2.0,
+               0);
+  rlRotatef(90, 1, 0, 0);
+  DrawGrid(GRID_WIDTH, CELL_SIZE);
+  rlPopMatrix();
 
-    rlPushMatrix();
-    rlTranslatef((GRID_WIDTH * CELL_SIZE)/2.0, (GRID_HEIGHT * CELL_SIZE), 0);
-    rlRotatef(90, 1, 0, 0);
-    DrawGrid(GRID_WIDTH, CELL_SIZE);
-    rlPopMatrix();
+  rlPushMatrix();
+  rlTranslatef((GRID_WIDTH * CELL_SIZE) / 2.0, (GRID_HEIGHT * CELL_SIZE), 0);
+  rlRotatef(90, 1, 0, 0);
+  DrawGrid(GRID_WIDTH, CELL_SIZE);
+  rlPopMatrix();
 }
 
 void drawSelectedCell(cell_coord selected_cell, cell_state state) {
@@ -153,13 +154,13 @@ void drawSelectedCell(cell_coord selected_cell, cell_state state) {
 
 void drawCells(cell_coord *changedCoords, size_t num_changed_coords) {
 
-  for (int i = 0; i < num_changed_coords; i++){
-	cell_coord cur = changedCoords[i];
-	DrawPixel(cur.x,cur.y,state_colors[cell_grid[cur.x][cur.y]]);
+  for (int i = 0; i < num_changed_coords; i++) {
+    cell_coord cur = changedCoords[i];
+    DrawPixel(cur.x, cur.y, state_colors[cell_grid[cur.x][cur.y]]);
   }
 }
 
 void drawBorder(float zoomlevel) {
-  Rectangle rect = {0,0, GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE};
-  DrawRectangleLinesEx(rect,3.0f * (1/zoomlevel),WHITE);
+  Rectangle rect = {0, 0, GRID_WIDTH * CELL_SIZE, GRID_HEIGHT * CELL_SIZE};
+  DrawRectangleLinesEx(rect, 3.0f * (1 / zoomlevel), WHITE);
 }

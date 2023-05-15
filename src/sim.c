@@ -19,7 +19,9 @@ void clearCells(void) {
       next_cell_grid[i][j] = EMPTY;
     }
   }
-  TraceLog(LOG_INFO,"Cleared cell grid that was size %dx%d and was %d bytes\n", GRID_WIDTH, GRID_HEIGHT, GRID_WIDTH * GRID_HEIGHT *sizeof(cell_state));
+  TraceLog(LOG_INFO, "Cleared cell grid that was size %dx%d and was %d bytes\n",
+           GRID_WIDTH, GRID_HEIGHT,
+           GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
 }
 
 cell_coord setCell(cell_coord coordinate, cell_state new_state) {
@@ -28,8 +30,8 @@ cell_coord setCell(cell_coord coordinate, cell_state new_state) {
     cell_grid[coordinate.x][coordinate.y] = new_state;
     return coordinate;
   }
-  cell_coord err = {-1,-1};
-  return err; 
+  cell_coord err = {-1, -1};
+  return err;
 }
 
 cell_coord getCellIdx(Vector2 mouse_pos) {
@@ -62,7 +64,7 @@ cell_neighbors stateInMoore(int x, int y) {
   return neighbors;
 }
 
-void updateGrid(cell_coord *changedCoords, size_t* num_changed_coords) {
+void updateGrid(cell_coord *changedCoords, size_t *num_changed_coords) {
   /*
    * As in all cellular automata, time proceeds in discrete steps called
    * generations (sometimes gens or ticks). Cells behave as follows:
@@ -76,7 +78,11 @@ void updateGrid(cell_coord *changedCoords, size_t* num_changed_coords) {
   size_t cellidx = 0;
   for (size_t i = 0; i < GRID_WIDTH; i++) {
     for (size_t j = 0; j < GRID_HEIGHT; j++) {
-      cell_neighbors neighbors = stateInMoore(i, j);
+
+      cell_neighbors neighbors = {0, 0};
+      if (cell_grid[i][j] != EMPTY)
+        neighbors = stateInMoore(i, j);
+
       if (cell_grid[i][j] == TAIL) {
         cell new_cell;
         new_cell.coord.x = i;
