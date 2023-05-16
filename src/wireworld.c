@@ -21,8 +21,10 @@
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + UI_HEIGHT, "Wire World");
+  Image icon = LoadImage("imgs/raylib.png");
+  SetWindowIcon(icon);
   GuiLoadStyleDark();
-  // SetTargetFPS(144);
+  SetTargetFPS(144);
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;

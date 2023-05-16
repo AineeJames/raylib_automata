@@ -79,7 +79,7 @@ void updateGrid(cell_coord *changedCoords, size_t *num_changed_coords) {
   for (size_t i = 0; i < GRID_WIDTH; i++) {
     for (size_t j = 0; j < GRID_HEIGHT; j++) {
 
-      cell_neighbors neighbors = {0, 0};
+      cell_neighbors neighbors;
       if (cell_grid[i][j] != EMPTY)
         neighbors = stateInMoore(i, j);
 
