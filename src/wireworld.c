@@ -22,10 +22,10 @@ int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + UI_HEIGHT, "Wire World");
   Image icon = LoadImage("imgs/raylib.png");
-  Image computer = LoadImage("imgs/ww800x600.gif");
+   
   SetWindowIcon(icon);
   GuiLoadStyleDark();
-  SetTargetFPS(144);
+  //SetTargetFPS(144);
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
@@ -37,12 +37,41 @@ int main() {
 
   Color *grid_pixels = malloc((GRID_WIDTH * GRID_HEIGHT) * sizeof(Color));
 
+  Image computer = LoadImage("imgs/ww800x600.gif");
+  Color *computercolors = LoadImageColors(computer);
+
+  for(int i = 0; i < computer.width; i++){
+    for(int j = 0; j < computer.height; j++){
+	size_t cell_idx = j*computer.width + i;
+	int thecolor = ColorToInt(computercolors[cell_idx]);
+	switch(thecolor){
+		case 0x000000FF:
+			cell_grid[i][j] = EMPTY;
+			grid_pixels[cell_idx] = state_colors[EMPTY];
+			break;
+		case 0xFFFFFFFF:
+			cell_grid[i][j] = HEAD;
+			grid_pixels[cell_idx] = state_colors[HEAD];
+			break;
+		case 0x0080FFFF: 
+			cell_grid[i][j] = TAIL;
+			grid_pixels[cell_idx] = state_colors[TAIL];
+			break;
+		case 0xFF8000FF:
+			cell_grid[i][j] = WIRE;
+			grid_pixels[cell_idx] = state_colors[WIRE];
+			break;
+	}
+    }
+  }
+  /*
   for (int i = 0; i < GRID_HEIGHT; i++) {
     for (int j = 0; j < GRID_WIDTH; j++) {
       size_t pixel_index = i * GRID_WIDTH + j;
       grid_pixels[pixel_index] = BLACK;
     }
   }
+  */
 
   // Texture to draw cells on, each cell will
   // be a single pixel that is then scaled up
@@ -52,8 +81,8 @@ int main() {
   ClearBackground(BLACK);
   EndTextureMode();
 
+  //clearCells();
   // loadDefault();
-  clearCells();
   Camera2D cam = {0};
   cam.zoom = 1;
   cam.offset.x = GetScreenWidth() / 2.0f;
