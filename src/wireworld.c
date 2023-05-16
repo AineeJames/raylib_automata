@@ -29,9 +29,11 @@ int main() {
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
   cell drawnCell = {0};
+
   size_t num_changed_coords = 0;
   cell *changedCells =
       malloc(((GRID_WIDTH * GRID_HEIGHT) + 1) * sizeof(cell));
+
   Color *grid_pixels = malloc((GRID_WIDTH * GRID_HEIGHT) * sizeof(Color));
 
   for (int i = 0; i < GRID_HEIGHT; i++) {
@@ -177,6 +179,8 @@ int main() {
       grid_pixels[cur.y * GRID_WIDTH + cur.x] =
           state_colors[cell_grid[cur.x][cur.y]];
     }
+
+    // If any cells have been changed
     if (num_changed_coords) {
       UpdateTexture(gametexture.texture, grid_pixels);
     }
