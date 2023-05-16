@@ -221,7 +221,7 @@ int main() {
     EndMode2D();
 
     // Draw the currently hovered over grid coord
-    DrawText(TextFormat("%4.0f %4.0f", mapGrid.x, mapGrid.y), 10, 10, 20,
+    DrawText(TextFormat("(%4.0f, %4.0f)", mapGrid.x, mapGrid.y), 680, 10, 20,
              WHITE);
 
     DrawFPS(0, 0);
