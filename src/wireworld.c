@@ -22,6 +22,7 @@ int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + UI_HEIGHT, "Wire World");
   Image icon = LoadImage("imgs/raylib.png");
+  Image computer = LoadImage("imgs/ww800x600.gif");
   SetWindowIcon(icon);
   GuiLoadStyleDark();
   SetTargetFPS(144);
