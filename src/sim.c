@@ -11,6 +11,42 @@ bool playing = false;
 short frames_per_tick = 4;
 short frame_count = 0;
 
+void LoadComputerFromImage(Color *grid_pixels){
+  Image computer = LoadImage("imgs/ww800x600.gif");
+  Color *computercolors = LoadImageColors(computer);
+  for(int i = 0; i < computer.width; i++){
+    for(int j = 0; j < computer.height; j++){
+	size_t cell_idx = j*computer.width + i;
+	int thecolor = ColorToInt(computercolors[cell_idx]);
+	switch(thecolor){
+		case 0x000000FF:
+			cell_grid[i][j] = EMPTY;
+			grid_pixels[cell_idx] = state_colors[EMPTY];
+			break;
+		case 0xFFFFFFFF:
+			cell_grid[i][j] = HEAD;
+			grid_pixels[cell_idx] = state_colors[HEAD];
+			break;
+		case 0x0080FFFF: 
+			cell_grid[i][j] = TAIL;
+			grid_pixels[cell_idx] = state_colors[TAIL];
+			break;
+		case 0xFF8000FF:
+			cell_grid[i][j] = WIRE;
+			grid_pixels[cell_idx] = state_colors[WIRE];
+			break;
+	}
+    }
+  }
+  UnloadImage(computer);
+  UnloadImageColors(computercolors);
+
+
+}
+
+
+
+
 void clearCells(void) {
   for (int i = 0; i < GRID_WIDTH; i++) {
     for (int j = 0; j < GRID_HEIGHT; j++) {
