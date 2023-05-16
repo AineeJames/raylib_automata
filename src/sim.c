@@ -24,13 +24,19 @@ void clearCells(void) {
            GRID_WIDTH * GRID_HEIGHT * sizeof(cell_state));
 }
 
-cell_coord setCell(cell_coord coordinate, cell_state new_state) {
+cell setCell(cell_coord coordinate, cell_state new_state) {
   if (coordinate.x >= 0 && coordinate.y >= 0 && coordinate.x < GRID_WIDTH &&
       coordinate.y < GRID_HEIGHT) {
     cell_grid[coordinate.x][coordinate.y] = new_state;
-    return coordinate;
+    cell retcell;
+    retcell.coord = coordinate;
+    retcell.state = new_state;
+    return retcell;
   }
-  cell_coord err = {-1, -1};
+  cell err;
+  err.state = EMPTY;
+  err.coord.x = -1;
+  err.coord.y = -1;
   return err;
 }
 
@@ -64,7 +70,7 @@ cell_neighbors stateInMoore(int x, int y) {
   return neighbors;
 }
 
-void updateGrid(cell_coord *changedCoords, size_t *num_changed_coords) {
+void updateGrid(cell *changedCells, size_t *num_changed_coords) {
   /*
    * As in all cellular automata, time proceeds in discrete steps called
    * generations (sometimes gens or ticks). Cells behave as follows:
@@ -74,7 +80,6 @@ void updateGrid(cell_coord *changedCoords, size_t *num_changed_coords) {
    *     electron tail → conductor,
    *     conductor → electron head if exactly one or two of the neighbouring
    * cells are electron heads, otherwise remains conductor.*/
-  static cell changed_cells[GRID_HEIGHT * GRID_WIDTH];
   size_t cellidx = 0;
   for (size_t i = 0; i < GRID_WIDTH; i++) {
     for (size_t j = 0; j < GRID_HEIGHT; j++) {
@@ -88,14 +93,14 @@ void updateGrid(cell_coord *changedCoords, size_t *num_changed_coords) {
         new_cell.coord.x = i;
         new_cell.coord.y = j;
         new_cell.state = WIRE;
-        changed_cells[cellidx++] = new_cell;
+        changedCells[cellidx++] = new_cell;
       }
       if (cell_grid[i][j] == HEAD && neighbors.tails > 0) {
         cell new_cell;
         new_cell.coord.x = i;
         new_cell.coord.y = j;
         new_cell.state = TAIL;
-        changed_cells[cellidx++] = new_cell;
+        changedCells[cellidx++] = new_cell;
       }
       if (cell_grid[i][j] == WIRE &&
           (neighbors.heads == 1 || neighbors.heads == 2)) {
@@ -103,14 +108,13 @@ void updateGrid(cell_coord *changedCoords, size_t *num_changed_coords) {
         new_cell.coord.x = i;
         new_cell.coord.y = j;
         new_cell.state = HEAD;
-        changed_cells[cellidx++] = new_cell;
+        changedCells[cellidx++] = new_cell;
       }
     }
   }
   for(size_t i = 0; i < cellidx; i++){
-     cell cur = changed_cells[i];
+     cell cur = changedCells[i];
      cell_grid[cur.coord.x][cur.coord.y] = cur.state;
-     changedCoords[*num_changed_coords + i] = cur.coord;
   }
   *num_changed_coords += cellidx;
 }

@@ -34,10 +34,10 @@ extern bool playing;
 extern short frames_per_tick;
 extern short frame_count;
 
-void updateGrid(cell_coord *changed_cells, size_t *num_changed_coords);
+void updateGrid(cell *changed_cells, size_t *num_changed_coords);
 void clearCells(void);
 cell_coord getCellIdx(Vector2 mouse_pos);
-cell_coord setCell(cell_coord coordinate, cell_state new_state);
+cell setCell(cell_coord coordinate, cell_state new_state);
 cell_neighbors stateInMoore(int x, int y);
 void loadDefault(void);
 

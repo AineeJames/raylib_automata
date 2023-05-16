@@ -28,10 +28,10 @@ int main() {
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
-  cell_coord drawnCell = {0};
+  cell drawnCell = {0};
   size_t num_changed_coords = 0;
-  cell_coord *changedCoords =
-      malloc(((GRID_WIDTH * GRID_HEIGHT) + 1) * sizeof(cell_coord));
+  cell *changedCells =
+      malloc(((GRID_WIDTH * GRID_HEIGHT) + 1) * sizeof(cell));
   Color *grid_pixels = malloc((GRID_WIDTH * GRID_HEIGHT) * sizeof(Color));
 
   for (int i = 0; i < GRID_HEIGHT; i++) {
@@ -149,7 +149,7 @@ int main() {
     if (frame_count % frames_per_tick == 0) {
       frame_count = 0;
       if (playing) {
-        updateGrid(changedCoords, &num_changed_coords);
+        updateGrid(changedCells, &num_changed_coords);
       }
     }
 
@@ -160,8 +160,8 @@ int main() {
           draw_state != cell_grid[selected_cell.x][selected_cell.y];
       if (cell_changed) {
         drawnCell = setCell(selected_cell, draw_state);
-        if (drawnCell.x != -1 && drawnCell.y != -1) {
-          changedCoords[num_changed_coords] = drawnCell;
+        if (drawnCell.coord.x != -1 && drawnCell.coord.y != -1) {
+          changedCells[num_changed_coords] = drawnCell;
           num_changed_coords += 1;
         }
       }
@@ -173,7 +173,7 @@ int main() {
 
     // change the changed pixels data
     for (int i = 0; i < num_changed_coords; i++) {
-      cell_coord cur = changedCoords[i];
+      cell_coord cur = changedCells[i].coord;
       grid_pixels[cur.y * GRID_WIDTH + cur.x] =
           state_colors[cell_grid[cur.x][cur.y]];
     }
