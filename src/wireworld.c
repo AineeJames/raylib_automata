@@ -60,6 +60,8 @@ int main() {
   cam.zoom = 1;
   cam.offset.x = GetScreenWidth() / 2.0f;
   cam.offset.y = GetScreenHeight() / 2.0f;
+  cam.target = GetScreenToWorld2D((Vector2){GRID_WIDTH/2 * CELL_SIZE,GRID_HEIGHT/2 * CELL_SIZE}, cam);
+  cam.zoom = 0.05f;
   Vector2 prevMousePos = GetMousePosition();
 
   while (!WindowShouldClose()) {
