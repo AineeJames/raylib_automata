@@ -21,19 +21,19 @@ void LoadComputerFromImage(Color *grid_pixels){
 	switch(thecolor){
 		case 0x000000FF:
 			cell_grid[i][j] = EMPTY;
-			grid_pixels[cell_idx] = state_colors[EMPTY];
+			grid_pixels[j*GRID_WIDTH + i] = state_colors[EMPTY];
 			break;
 		case 0xFFFFFFFF:
 			cell_grid[i][j] = HEAD;
-			grid_pixels[cell_idx] = state_colors[HEAD];
+			grid_pixels[j*GRID_WIDTH + i] = state_colors[HEAD];
 			break;
 		case 0x0080FFFF: 
 			cell_grid[i][j] = TAIL;
-			grid_pixels[cell_idx] = state_colors[TAIL];
+			grid_pixels[j*GRID_WIDTH + i] = state_colors[TAIL];
 			break;
 		case 0xFF8000FF:
 			cell_grid[i][j] = WIRE;
-			grid_pixels[cell_idx] = state_colors[WIRE];
+			grid_pixels[j*GRID_WIDTH + i] = state_colors[WIRE];
 			break;
 	}
     }
