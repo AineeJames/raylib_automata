@@ -12,7 +12,7 @@ short frames_per_tick = 4;
 short frame_count = 0;
 
 void LoadComputerFromImage(Color *grid_pixels){
-  Image computer = LoadImage("imgs/ww800x600.gif");
+  Image computer = LoadImage("imgs/counting_cpu.png");
   Color *computercolors = LoadImageColors(computer);
   for(int i = 0; i < computer.width; i++){
     for(int j = 0; j < computer.height; j++){

@@ -46,7 +46,6 @@ int main() {
   }
 
   clearCells();
-  LoadComputerFromImage(grid_pixels);
   // Texture to draw cells on, each cell will
   // be a single pixel that is then scaled up
   // and shifted to fit onto the existing grid
@@ -54,9 +53,9 @@ int main() {
   BeginTextureMode(gametexture);
   ClearBackground(BLACK);
   EndTextureMode();
+  clearCells();
+  LoadComputerFromImage(grid_pixels);
   UpdateTexture(gametexture.texture, grid_pixels);
-  //clearCells();
-  // loadDefault();
   Camera2D cam = {0};
   cam.zoom = 1;
   cam.offset.x = GetScreenWidth() / 2.0f;
