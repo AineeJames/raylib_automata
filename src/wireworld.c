@@ -22,22 +22,20 @@ int main() {
   SetTraceLogLevel(LOG_DEBUG);
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + UI_HEIGHT, "Wire World");
   Image icon = LoadImage("imgs/raylib.png");
-   
+
   SetWindowIcon(icon);
   GuiLoadStyleDark();
-  //SetTargetFPS(144);
+  // SetTargetFPS(144);
   HideCursor();
   cell_state draw_state = WIRE;
   int stateMouseHover = 0;
   cell drawnCell = {0};
 
   size_t num_changed_coords = 0;
-  cell *changedCells =
-      malloc(((GRID_WIDTH * GRID_HEIGHT) + 1) * sizeof(cell));
+  cell *changedCells = malloc(((GRID_WIDTH * GRID_HEIGHT) + 1) * sizeof(cell));
 
   Color *grid_pixels = malloc((GRID_WIDTH * GRID_HEIGHT) * sizeof(Color));
 
-  	
   for (int i = 0; i < GRID_HEIGHT; i++) {
     for (int j = 0; j < GRID_WIDTH; j++) {
       size_t pixel_index = i * GRID_WIDTH + j;
@@ -45,7 +43,6 @@ int main() {
     }
   }
 
-  clearCells();
   // Texture to draw cells on, each cell will
   // be a single pixel that is then scaled up
   // and shifted to fit onto the existing grid
@@ -60,8 +57,8 @@ int main() {
   cam.zoom = 1;
   cam.offset.x = GetScreenWidth() / 2.0f;
   cam.offset.y = GetScreenHeight() / 2.0f;
-  //cam.target = GetScreenToWorld2D((Vector2){GRID_WIDTH/2 * CELL_SIZE,GRID_HEIGHT/2 * CELL_SIZE + UI_HEIGHT}, cam);
-  //cam.zoom = 0.05f;
+  // cam.target = GetScreenToWorld2D((Vector2){GRID_WIDTH/2 *
+  // CELL_SIZE,GRID_HEIGHT/2 * CELL_SIZE + UI_HEIGHT}, cam); cam.zoom = 0.05f;
   Vector2 prevMousePos = GetMousePosition();
 
   while (!WindowShouldClose()) {
@@ -100,7 +97,7 @@ int main() {
 
     float mouseDelta = GetMouseWheelMove();
 
-    float newZoom = cam.zoom + mouseDelta * 0.1f;
+    float newZoom = cam.zoom + mouseDelta * 0.07f;
     // Capping the zoom so you don't zoom
     // out oo much and get lost
     if (newZoom <= 0.03)
