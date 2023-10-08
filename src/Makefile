@@ -22,13 +22,13 @@ ifeq ($(OS),Windows_NT)
 
     endif
 
-debug: CFLAGS += -g3	
+debug: CFLAGS +=-g3	
 debug: EXE=debugww
 debug: all
 
 executable: $(OBJECTS)
-	@echo "Compiling..."
-	$(CC) $(OBJECTS) -o ../$(EXE) $(RAYFLAGS) $(CFLAGS)
+	@echo "Compiling... for $(PLATFORM_OS)"
+	$(CC) $(OBJECTS) -o ../$(EXE) $(RAYFLAGS) $(CFLAGS) 
 
 .c.o:
 	$(CC) $(CFLAGS) $(RAYFLAGS) -c $< -o $@
