@@ -20,7 +20,13 @@
 
 int main() {
   SetTraceLogLevel(LOG_DEBUG);
+  clock_t begin = clock();
+
   InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT + UI_HEIGHT, "Wire World");
+
+  clock_t end = clock();
+  double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
+  printf("Took %f to open window clocks per sec = %lu\n",time_spent, CLOCKS_PER_SEC);
   Image icon = LoadImage("imgs/raylib.png");
 
   SetWindowIcon(icon);

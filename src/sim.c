@@ -11,41 +11,36 @@ bool playing = false;
 short frames_per_tick = 4;
 short frame_count = 0;
 
-void LoadComputerFromImage(Color *grid_pixels){
+void LoadComputerFromImage(Color *grid_pixels) {
   Image computer = LoadImage("imgs/counting_cpu.png");
   Color *computercolors = LoadImageColors(computer);
-  for(int i = 0; i < computer.width; i++){
-    for(int j = 0; j < computer.height; j++){
-	size_t cell_idx = j*computer.width + i;
-	int thecolor = ColorToInt(computercolors[cell_idx]);
-	switch(thecolor){
-		case 0x000000FF:
-			cell_grid[i][j] = EMPTY;
-			grid_pixels[j*GRID_WIDTH + i] = state_colors[EMPTY];
-			break;
-		case 0xFFFFFFFF:
-			cell_grid[i][j] = HEAD;
-			grid_pixels[j*GRID_WIDTH + i] = state_colors[HEAD];
-			break;
-		case 0x0080FFFF: 
-			cell_grid[i][j] = TAIL;
-			grid_pixels[j*GRID_WIDTH + i] = state_colors[TAIL];
-			break;
-		case 0xFF8000FF:
-			cell_grid[i][j] = WIRE;
-			grid_pixels[j*GRID_WIDTH + i] = state_colors[WIRE];
-			break;
-	}
+  for (int i = 0; i < computer.width; i++) {
+    for (int j = 0; j < computer.height; j++) {
+      size_t cell_idx = j * computer.width + i;
+      int thecolor = ColorToInt(computercolors[cell_idx]);
+      switch (thecolor) {
+      case 0x000000FF:
+        cell_grid[i][j] = EMPTY;
+        grid_pixels[j * GRID_WIDTH + i] = state_colors[EMPTY];
+        break;
+      case 0xFFFFFFFF:
+        cell_grid[i][j] = HEAD;
+        grid_pixels[j * GRID_WIDTH + i] = state_colors[HEAD];
+        break;
+      case 0x0080FFFF:
+        cell_grid[i][j] = TAIL;
+        grid_pixels[j * GRID_WIDTH + i] = state_colors[TAIL];
+        break;
+      case 0xFF8000FF:
+        cell_grid[i][j] = WIRE;
+        grid_pixels[j * GRID_WIDTH + i] = state_colors[WIRE];
+        break;
+      }
     }
   }
   UnloadImage(computer);
   UnloadImageColors(computercolors);
-
-
 }
-
-
-
 
 void clearCells(void) {
   for (int i = 0; i < GRID_WIDTH; i++) {
@@ -120,36 +115,39 @@ void updateGrid(cell *changedCells, size_t *num_changed_coords) {
     for (size_t j = 0; j < GRID_HEIGHT; j++) {
 
       cell_neighbors neighbors;
-      if (cell_grid[i][j] != EMPTY)
+      switch (cell_grid[i][j]) {
+      case (EMPTY):
         neighbors = stateInMoore(i, j);
-
-      if (cell_grid[i][j] == TAIL) {
+        break;
+      case (TAIL): {
         cell new_cell;
         new_cell.coord.x = i;
         new_cell.coord.y = j;
         new_cell.state = WIRE;
         changedCells[cellidx++] = new_cell;
-      }
-      if (cell_grid[i][j] == HEAD && neighbors.tails > 0) {
-        cell new_cell;
-        new_cell.coord.x = i;
-        new_cell.coord.y = j;
-        new_cell.state = TAIL;
-        changedCells[cellidx++] = new_cell;
-      }
-      if (cell_grid[i][j] == WIRE &&
-          (neighbors.heads == 1 || neighbors.heads == 2)) {
-        cell new_cell;
-        new_cell.coord.x = i;
-        new_cell.coord.y = j;
-        new_cell.state = HEAD;
-        changedCells[cellidx++] = new_cell;
+      } break;
+      case (HEAD):
+        if (neighbors.tails > 0) {
+          cell new_cell;
+          new_cell.coord.x = i;
+          new_cell.coord.y = j;
+          new_cell.state = TAIL;
+          changedCells[cellidx++] = new_cell;
+        }
+      case (WIRE):
+        if ((neighbors.heads == 1 || neighbors.heads == 2)) {
+          cell new_cell;
+          new_cell.coord.x = i;
+          new_cell.coord.y = j;
+          new_cell.state = HEAD;
+          changedCells[cellidx++] = new_cell;
+        }
       }
     }
   }
-  for(size_t i = 0; i < cellidx; i++){
-     cell cur = changedCells[i];
-     cell_grid[cur.coord.x][cur.coord.y] = cur.state;
+  for (size_t i = 0; i < cellidx; i++) {
+    cell cur = changedCells[i];
+    cell_grid[cur.coord.x][cur.coord.y] = cur.state;
   }
   *num_changed_coords += cellidx;
 }
